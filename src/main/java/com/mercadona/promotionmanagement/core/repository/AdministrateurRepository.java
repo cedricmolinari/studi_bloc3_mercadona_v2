@@ -4,5 +4,5 @@ import com.mercadona.promotionmanagement.core.entity.Administrateur;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AdministrateurRepository extends JpaRepository<Administrateur, Long> {
-
+    Administrateur findByAdministrateur(String administrateur);
 }

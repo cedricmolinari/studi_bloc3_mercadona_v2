@@ -1,6 +1,6 @@
 package com.mercadona.promotionmanagement.core.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "Administrateur")
@@ -9,17 +9,17 @@ public class Administrateur {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long idAdmin;
 
-    @Column(name = "nom")
-    private String nom;
+    @Column(name = "administrateur")
+    private String administrateur;
 
     @Column(name = "mot_de_passe")
     private String motDePasse;
 
-    public Administrateur(Long idAdmin, String nom, String motDePasse) {
+    /*public Administrateur(Long idAdmin, String administrateur, String motDePasse) {
         this.idAdmin = idAdmin;
-        this.nom = nom;
+        this.administrateur = administrateur;
         this.motDePasse = motDePasse;
-    }
+    }*/
 
     public Administrateur() {
     }
@@ -32,12 +32,12 @@ public class Administrateur {
         this.idAdmin = idAdmin;
     }
 
-    public String getNom() {
-        return nom;
+    public String getAdministrateur() {
+        return administrateur;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setAdministrateur(String administrateur) {
+        this.administrateur = administrateur;
     }
 
     public String getMotDePasse() {
