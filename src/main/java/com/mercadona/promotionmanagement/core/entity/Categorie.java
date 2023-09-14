@@ -1,30 +1,42 @@
 package com.mercadona.promotionmanagement.core.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Categorie")
 public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long idCategorie;
+    private Integer idCategorie;
 
     @Column(name = "libelle")
     private String libelle;
+    @OneToMany(mappedBy = "categorie", fetch = FetchType.LAZY)
+    private List<Produit> produits = new ArrayList<>();
 
-    public Categorie(Long idCategorie, String libelle) {
+    public Categorie(Integer idCategorie, String libelle) {
         this.idCategorie = idCategorie;
         this.libelle = libelle;
+    }
+
+    public List<Produit> getProduits() {
+        return produits;
+    }
+
+    public void setProduits(List<Produit> produits) {
+        this.produits = produits;
     }
 
     public Categorie() {
     }
 
-    public Long getIdCategorie() {
+    public Integer getIdCategorie() {
         return idCategorie;
     }
 
-    public void setIdCategorie(Long idCategorie) {
+    public void setIdCategorie(Integer idCategorie) {
         this.idCategorie = idCategorie;
     }
 

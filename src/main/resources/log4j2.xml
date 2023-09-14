@@ -6,7 +6,7 @@
         </Console>
     </Appenders>
     <Loggers>
-        <Logger name="com.mercadona.promotionmanagement.controller" level="TRACE">
+        <Logger name="com.mercadona.promotionmanagement.controller.ProduitFormController" level="TRACE">
             <AppenderRef ref="Console"/>
         </Logger>
         <Logger name="com.mercadona.promotionmanagement.core" level="TRACE">

@@ -1,7 +1,7 @@
 package com.mercadona.promotionmanagement.controller;
 
-import com.mercadona.promotionmanagement.core.entity.Administrateur;
-import com.mercadona.promotionmanagement.core.service.AdministrateurService;
+import com.mercadona.promotionmanagement.core.entity.Utilisateur;
+import com.mercadona.promotionmanagement.core.service.UtilisateurService;
 import com.mercadona.promotionmanagement.form.LoginForm;
 import javax.validation.Valid;
 
@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class LoginFormController {
-    private final AdministrateurService administrateurService;
+    private final UtilisateurService utilisateurService;
     @Autowired
-    public LoginFormController(AdministrateurService administrateurService) { this.administrateurService = administrateurService; }
+    public LoginFormController(UtilisateurService utilisateurService) { this.utilisateurService = utilisateurService; }
     @Autowired
     private PasswordEncoder passwordEncoder;
     @GetMapping("/login")
@@ -37,10 +37,10 @@ public class LoginFormController {
         if (results.hasErrors()) {
             return "login";
         }
-        String nomAdministrateur = form.getAdministrateur();
-        Administrateur administrateur = administrateurService.findByAdministrateur(nomAdministrateur);
+        String identifiant = form.getIdentifiant();
+        Utilisateur utilisateur = utilisateurService.findByIdentifiant(identifiant);
 
-        if (administrateur != null && passwordEncoder.matches(form.getMotDePasse(), administrateur.getMotDePasse())) {
+        if (utilisateur != null && passwordEncoder.matches(form.getMotDePasse(), utilisateur.getMotDePasse())) {
             redirectAttributes.addFlashAttribute("message", "Vous vous êtes identifiés avec succès.");
             return "redirect:/produit"; // Rediriger si succès
         } else {

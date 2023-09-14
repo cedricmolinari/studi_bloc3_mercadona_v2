@@ -1,8 +1,6 @@
 package com.mercadona.promotionmanagement;
 
-import com.mercadona.promotionmanagement.core.entity.Administrateur;
-import com.mercadona.promotionmanagement.core.repository.AdministrateurRepository;
-import com.mercadona.promotionmanagement.core.service.AdministrateurService;
+import com.mercadona.promotionmanagement.core.service.UtilisateurService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,9 +16,9 @@ public class PromotionManagementApplication {
 	}
 
 	/*@Bean
-	public CommandLineRunner setupDefaultAdmin(AdministrateurService administrateurService) {
+	public CommandLineRunner setupDefaultAdmin(UtilisateurService utilisateurService) {
 		return args -> {
-			administrateurService.saveAdmin("admin", "admin");
+			utilisateurService.saveAdmin("admin", "admin");
 		};
 	}*/
 

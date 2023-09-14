@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajouter un article</title>
+</head>
+<body>
+<form th:action="@{form/ajout}" th:object="${produitForm}" method="post" enctype="multipart/form-data">
+
+    <p>Catégorie</p>
+    <p>
+        <select th:field="*{categorieId}">
+            <option th:each="categorie : ${categories}" th:value="${categorie.idCategorie}" th:text="${categorie.libelle}"></option>
+        </select>
+    </p>
+    <div th:if="${#fields.hasErrors('categorieId')}" th:errors="*{categorieId}"></div>
+
+    <p>Libellé</p>
+    <p>
+        <input type="text" th:field="*{libelle}"/>
+    </p>
+    <div th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}"></div>
+    <p>Description</p>
+    <p>
+        <textarea rows="4" cols="50" th:field="*{description}"/>
+    </p>
+    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+
+    <p>Prix</p>
+    <p>
+        <input type="text" th:field="*{prix}"/>
+    </p>
+    <div th:if="${#fields.hasErrors('prix')}" th:errors="*{prix}"></div>
+
+    <p>Image</p>
+    <p>
+        <input type="file" th:field="*{imageFile}"/>
+    </p>
+    <div th:if="${#fields.hasErrors('imageFile')}" th:errors="*{imageFile}"></div>
+
+    <input type="submit" value="Ajouter"/>
+
+</form>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var message = /*[[${message}]]*/ 'default';
+    if (message && message !== 'default') {
+        alert(message);
+    }
+    /*]]>*/
+</script>
+
+</body>
+</html>

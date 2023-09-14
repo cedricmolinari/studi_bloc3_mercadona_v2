@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public class Promotion {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long idPromotion;
+    private Integer idPromotion;
     @Column(name = "date_debut")
     private String dateDebut;
     @Column(name = "date_fin")
@@ -17,25 +17,25 @@ public class Promotion {
     @Column(name = "pourcentage")
     private BigDecimal pourcentage;
 
-    @Column(name = "produit_id")
-    private String produitId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "produit_id")
+    private Produit produit;
 
-    public Promotion(Long idPromotion, String dateDebut, String dateFin, BigDecimal pourcentage, String produitId) {
+    public Promotion(Integer idPromotion, String dateDebut, String dateFin, BigDecimal pourcentage, String produitId) {
         this.idPromotion = idPromotion;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.pourcentage = pourcentage;
-        this.produitId = produitId;
     }
 
     public Promotion() {
     }
 
-    public Long getIdPromotion() {
+    public Integer getIdPromotion() {
         return idPromotion;
     }
 
-    public void setIdPromotion(Long idPromotion) {
+    public void setIdPromotion(Integer idPromotion) {
         this.idPromotion = idPromotion;
     }
 
@@ -63,11 +63,11 @@ public class Promotion {
         this.pourcentage = pourcentage;
     }
 
-    public String getProduitId() {
-        return produitId;
+    public Produit getProduit() {
+        return produit;
     }
 
-    public void setProduitId(String produitId) {
-        this.produitId = produitId;
+    public void setProduit(Produit produit) {
+        this.produit = produit;
     }
 }

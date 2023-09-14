@@ -3,26 +3,26 @@ package com.mercadona.promotionmanagement.form;
 import javax.validation.constraints.NotBlank;
 
 public class LoginForm {
-    private Long idAdmin;
+    private Long idUtilisateur;
     @NotBlank(message = "Veuillez entrer votre identifiant")
-    private String administrateur;
+    private String identifiant;
     @NotBlank(message = "Veuillez entrer votre mot de passe")
     private String motDePasse;
 
-    public Long getIdAdmin() {
-        return idAdmin;
+    public Long getIdUtilisateur() {
+        return idUtilisateur;
     }
 
-    public void setIdAdmin(Long idAdmin) {
-        this.idAdmin = idAdmin;
+    public void setIdUtilisateur(Long idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
     }
 
-    public String getAdministrateur() {
-        return administrateur;
+    public String getIdentifiant() {
+        return identifiant;
     }
 
-    public void setAdministrateur(String administrateur) {
-        this.administrateur = administrateur;
+    public void setIdentifiant(String identifiant) {
+        this.identifiant = identifiant;
     }
 
     public String getMotDePasse() {

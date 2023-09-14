@@ -12,9 +12,9 @@
 </div>
 <form th:action="@{login}" th:object="${loginForm}" method="post">
     <div class="form-group">
-        <label for="user">Administrateur :</label>
-        <input type="text" th:field="*{administrateur}" name="administrateur" id="user" placeholder="Entrer votre identifiant">
-        <div th:if="${#fields.hasErrors('administrateur')}" th:errors="*{administrateur}"></div>
+        <label for="user">Identifiant :</label>
+        <input type="text" th:field="*{identifiant}" name="identifiant" id="user" placeholder="Entrer votre identifiant">
+        <div th:if="${#fields.hasErrors('identifiant')}" th:errors="*{identifiant}"></div>
     </div>
     <br>
     <div class="form-group">
