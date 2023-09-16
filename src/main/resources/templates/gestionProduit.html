@@ -41,6 +41,13 @@
     <input type="submit" value="Ajouter"/>
 
 </form>
+<div th:if="${isAuthenticated}">
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+        <input type="submit" value="Déconnexion" />
+    </form>
+</div>
+
 <script th:inline="javascript">
     /*<![CDATA[*/
     var message = /*[[${message}]]*/ 'default';

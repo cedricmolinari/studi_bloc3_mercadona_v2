@@ -6,6 +6,8 @@ import com.mercadona.promotionmanagement.core.service.CategorieService;
 import com.mercadona.promotionmanagement.core.service.ProduitService;
 import com.mercadona.promotionmanagement.form.ProduitForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +22,13 @@ public class ProduitController {
         this.produitService = produitService;
         this.categorieService = categorieService; // Initialisation de CategorieService
     }
-    @GetMapping("/produit")
+    @GetMapping({"/", "/produit"})
     public String displayProduits(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAuthenticated = auth != null && auth.isAuthenticated() && !auth.getName().equals("anonymousUser");
         List<Produit> produits = produitService.list();
         model.addAttribute("produits", produits);
+        model.addAttribute("isAuthenticated", isAuthenticated); // la valeur de isAuthenticated dépend de votre logique d'authentification
         return "produit";
     }
 
