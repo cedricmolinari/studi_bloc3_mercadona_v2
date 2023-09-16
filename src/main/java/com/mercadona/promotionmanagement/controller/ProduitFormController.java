@@ -79,7 +79,7 @@ public class ProduitFormController {
         logger.debug("Sauvegarde de l'image: {}", file.getOriginalFilename());
         try {
             // Définir le chemin où vous souhaitez sauvegarder l'image
-            String folder = "src/main/resources/static/";
+            String folder = "src/main/resources/static/images/";
 
             // Construire un nom de fichier unique pour éviter les collisions
             String originalFileName = file.getOriginalFilename();
