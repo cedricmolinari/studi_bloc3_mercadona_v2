@@ -34,9 +34,12 @@ public class ProduitController {
 
     @GetMapping("produit/form")
     public String displayProduitForm(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAuthenticated = auth != null && auth.isAuthenticated() && !auth.getName().equals("anonymousUser");
         model.addAttribute("produitForm", new ProduitForm());
         List<Categorie> categories = categorieService.findAll(); // 2. Récupération de la liste des catégories
         model.addAttribute("categories", categories); // Ajout de la liste des catégories au modèle
+        model.addAttribute("isAuthenticated", isAuthenticated); // la valeur de isAuthenticated dépend de votre logique d'authentification
         return "gestionProduit";
     }
 }
