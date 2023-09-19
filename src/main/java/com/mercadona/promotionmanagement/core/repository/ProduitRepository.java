@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProduitRepository extends JpaRepository<Produit, Long> {
+public interface ProduitRepository extends JpaRepository<Produit, Integer> {
     @Query(value = "SELECT RIGHT(reference, 6) FROM produit WHERE reference LIKE :prefix% ORDER BY reference DESC LIMIT 1", nativeQuery = true)
     String findLatestReferenceForCategory(@Param("prefix") String prefix);
 }

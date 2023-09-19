@@ -3,9 +3,11 @@ package com.mercadona.promotionmanagement.core.service;
 import com.mercadona.promotionmanagement.core.entity.Produit;
 import com.mercadona.promotionmanagement.core.repository.ProduitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -13,15 +15,16 @@ public class ProduitService {
     @Autowired
     ProduitRepository produitRepository;
 
-    public List<Produit> list() {
-
-        List<Produit> produits = produitRepository.findAll();
-        return produits;
+    public Page<Produit> list(Pageable pageable) {
+        try {
+            return produitRepository.findAll(pageable);
+        } catch (DataAccessException e) {
+            // Renvoi une page vide
+            return Page.empty();
+        }
     }
 
-
-
-    public Produit findById(Long id) {
+    public Produit findById(Integer id) {
         // Utilisez la méthode findById du ProduitRepository pour récupérer l'produit par son identifiant
         return produitRepository.findById(id).orElse(null);
     }

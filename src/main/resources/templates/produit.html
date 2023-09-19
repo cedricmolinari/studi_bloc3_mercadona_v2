@@ -5,7 +5,7 @@
     <title>Liste des produits</title>
 </head>
 <body>
-<a href="/produit/form">espace admin</a>
+<a href="/produit/gestion-produit">espace admin</a>
 <div th:if="${isAuthenticated}">
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" th:value="${_csrf.token}" />

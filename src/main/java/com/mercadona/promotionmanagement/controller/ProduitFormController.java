@@ -38,7 +38,7 @@ public class ProduitFormController {
     @Autowired
     private ProduitRepository produitRepository;
     @Transactional
-    @PostMapping("produit/form/ajout")
+    @PostMapping("produit/gestion-produit/ajout")
     public String ajouterProduitEtImage(@Valid @ModelAttribute ProduitForm form, BindingResult results, RedirectAttributes redirectAttributes) {
         if (results.hasErrors()) {
             logger.warn("Erreur dans le formulaire d'ajout de l'produit.");
@@ -73,7 +73,7 @@ public class ProduitFormController {
         String formattedDate = produit.getDateCreation().format(formatter);
         redirectAttributes.addFlashAttribute("message", "Le produit de référence " + produit.getReference() + " a été ajouté le " + formattedDate + ".");
 
-        return "redirect:/produit/form";
+        return "redirect:/produit/gestion-produit";
     }
     private String saveImage(MultipartFile file) {
         logger.debug("Sauvegarde de l'image: {}", file.getOriginalFilename());

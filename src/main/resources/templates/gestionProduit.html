@@ -3,9 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <title>Ajouter un article</title>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
 </head>
 <body>
-<form th:action="@{form/ajout}" th:object="${produitForm}" method="post" enctype="multipart/form-data">
+<!-- Tableau pour afficher la liste des produits -->
+    <table>
+        <thead>
+        <tr>
+            <th>Référence</th>
+            <th>Date de création</th>
+            <th>Libellé</th>
+            <th>Prix</th>
+            <th>Promotion</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="produit : ${produits}">
+            <td th:text="${produit.reference}"></td>
+            <td th:text="${produit.dateCreation}"></td>
+            <td th:text="${produit.libelle}"></td>
+            <td th:text="${produit.prix}"></td>
+            <td><input class="pourcentagePromo" type="number" min="0" max="100" placeholder="Promo %" /></td>
+            <td><input class="promoDebut" type="date" th:value="${today}" /></td>
+            <td><input class="promoFin" type="date" th:value="${oneWeekFromNow}" /></td>
+            <td><button class="btnAppliquerPromo" type="button" th:data-id="${produit.idProduit}">Appliquer Promo</button></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Contrôles de pagination -->
+<div>
+    <ul>
+        <!-- Première page -->
+        <li th:if="${produits.first}">Première page</li>
+        <li th:if="${!produits.first}"><a th:href="@{?page=0}">Première page</a></li>
+
+        <!-- Précédent -->
+        <li th:if="${produits.hasPrevious()}" th:with="prevPage=${produits.number - 1}">
+            <a th:href="@{|?page=${prevPage}|}">Précédent</a>
+        </li>
+        <li th:if="${!produits.hasPrevious()}">Précédent</li>
+
+        <!-- Numéros des pages -->
+        <li th:each="pageNumber : ${pageNumbers}" th:class="${pageNumber == produits.number + 1 ? 'current' : ''}">
+            <a th:href="@{|?page=${pageNumber - 1}|}" th:text="${pageNumber}"></a>
+        </li>
+
+        <!-- Suivant -->
+        <li th:if="${produits.hasNext()}" th:with="nextPage=${produits.number + 1}">
+            <a th:href="@{|?page=${nextPage}|}">Suivant</a>
+        </li>
+        <li th:if="${!produits.hasNext()}">Suivant</li>
+
+        <!-- Dernière page -->
+        <li th:if="${produits.last}">Dernière page</li>
+        <li th:if="${!produits.last}" th:with="lastPage=${produits.totalPages - 1}">
+            <a th:href="@{|?page=${lastPage}|}">Dernière page</a>
+        </li>
+    </ul>
+</div>
+
+
+
+<!-- Formulaire d'ajout de produit -->
+    <form th:action="@{gestion-produit/ajout}" th:object="${produitForm}" method="post" enctype="multipart/form-data">
 
     <p>Catégorie</p>
     <p>
@@ -37,10 +100,12 @@
         <input type="file" th:field="*{imageFile}"/>
     </p>
     <div th:if="${#fields.hasErrors('imageFile')}" th:errors="*{imageFile}"></div>
-
+    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
     <input type="submit" value="Ajouter"/>
 
 </form>
+
+<!-- Formulaire de déconnexion -->
 <div th:if="${isAuthenticated}">
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
@@ -56,6 +121,8 @@
     }
     /*]]>*/
 </script>
+<script src="/gestionProduit.js"></script>
+
 
 </body>
 </html>

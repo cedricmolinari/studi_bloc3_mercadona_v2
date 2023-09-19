@@ -30,7 +30,9 @@ public class Produit {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "produit")
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "promotion_id")
     private Promotion promotion;
 
     public Integer getIdProduit() {

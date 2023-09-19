@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.HttpMethod;
+
 
 @Configuration
 @EnableWebSecurity
@@ -22,20 +24,22 @@ public class ConfigurationSecurite extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                    .antMatchers("/produit/form").authenticated() // Seuls les utilisateurs authentifiés peuvent y accéder
-                    .antMatchers("/", "/produit", "/login").permitAll() // Autoriser l'accès à tout le monde
-                    .and()
-                .formLogin()
-                    .usernameParameter("identifiant")
-                    .passwordParameter("motDePasse")
-                    .permitAll()
-                    .and()
-                .logout()
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/produit")
-                    .permitAll();
-
+            .authorizeRequests()
+                .antMatchers("/static/**").permitAll() // Autoriser l'accès à toutes les ressources statiques
+                .antMatchers("/produit/gestion-produit").authenticated() // Seuls les utilisateurs authentifiés peuvent y accéder
+                .antMatchers("/", "/produit", "/login").permitAll() // Autoriser l'accès à tout le monde
+                .antMatchers(HttpMethod.POST, "/api/produits/**/promotion").permitAll()
+            .and()
+//            .csrf().disable()
+            .formLogin()
+                .usernameParameter("identifiant")
+                .passwordParameter("motDePasse")
+                .permitAll()
+                .and()
+            .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/produit")
+                .permitAll();
     }
 
     @Autowired
