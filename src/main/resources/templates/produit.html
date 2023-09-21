@@ -44,12 +44,11 @@
             ((produit.prix * (1 - produit.promotion.pourcentage/100)) % 1 == 0 ? ((produit.prix * (1 - produit.promotion.pourcentage/100)).intValue()) + ' €' : (produit.prix * (1 - produit.promotion.pourcentage/100)) + ' €') :
             produit.prix + ' €'} ">
         </td>
-
-
-
         <td th:text="${produit.categorie.libelle}"></td>
     </tr>
+
     </tbody>
+
 </table>
 
 <div th:if="${isAuthenticated}">
@@ -58,5 +57,12 @@
         <input type="submit" value="Déconnexion" />
     </form>
 </div>
+<footer style="background-color: #333; color: white; padding: 20px; text-align: center;">
+    <h4>Mentions Légales</h4>
+    <p>Mercadona est une entreprise du secteur du retail avec 1675 magasins en Espagne et un chiffre d'affaires de 20 milliards d'euros.</p>
+    <p>Notre engagement envers le développement durable nous amène à remplacer nos tracts publicitaires par cette application web, développée en collaboration avec PromoWeb.</p>
+    <p>Responsable du projet chez Mercadona : José</p>
+    <p>Tous droits réservés &copy; Mercadona, 2023</p>
+</footer>
 </body>
 </html>
