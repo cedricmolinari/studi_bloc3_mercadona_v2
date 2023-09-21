@@ -23,7 +23,7 @@ public class Produit {
     private String cheminImage;
     @Column(name = "date_creation")
     private LocalDateTime dateCreation;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
 
@@ -31,7 +31,7 @@ public class Produit {
     @JoinColumn(name = "utilisateur_id")
     private Utilisateur utilisateur;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "promotion_id")
     private Promotion promotion;
 

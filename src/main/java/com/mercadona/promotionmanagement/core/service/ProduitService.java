@@ -7,6 +7,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,13 +17,17 @@ public class ProduitService {
     @Autowired
     ProduitRepository produitRepository;
 
-    public Page<Produit> list(Pageable pageable) {
+    public Page<Produit> listPage(Pageable pageable) {
         try {
             return produitRepository.findAll(pageable);
         } catch (DataAccessException e) {
             // Renvoi une page vide
             return Page.empty();
         }
+    }
+
+    public List<Produit> listSimple() {
+        return produitRepository.findAll();
     }
 
     public Produit findById(Integer id) {
@@ -48,6 +54,21 @@ public class ProduitService {
 
         return lastNumber;
     }
+    
 
+    public List<Produit> findByCategorie(String categorie) {
+        return produitRepository.findByCategorieLibelle(categorie);
+    }
+
+    public List<Produit> findAll() {
+        return produitRepository.findAll();
+    }
+
+    public List<Produit> listWithCategories() {
+        return produitRepository.findAllWithCategories();
+    }
+    public List<Produit> findByCategorieId(Integer categorieId) {
+        return produitRepository.findByCategorieId(categorieId);
+    }
 
 }

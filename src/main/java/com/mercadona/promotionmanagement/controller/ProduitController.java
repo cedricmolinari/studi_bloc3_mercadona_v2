@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -29,13 +30,33 @@ public class ProduitController {
         this.produitService = produitService;
         this.categorieService = categorieService; // Initialisation de CategorieService
     }
-    @GetMapping({"/", "/produit"})
-    public String displayProduits(Model model) {
+
+    @GetMapping("/produit")
+    public String displayProduits(@RequestParam(value = "categorie", required = false) String categorieString, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean isAuthenticated = auth != null && auth.isAuthenticated() && !auth.getName().equals("anonymousUser");
-        /*List<Produit> produits = produitService.list();
-        model.addAttribute("produits", produits);*/
-        model.addAttribute("isAuthenticated", isAuthenticated); // la valeur de isAuthenticated dépend de votre logique d'authentification
+
+        List<Produit> produits;
+        Integer categorieId = null;
+
+        if (categorieString != null && !categorieString.trim().isEmpty()) {
+            try {
+                categorieId = Integer.parseInt(categorieString);
+                produits = produitService.findByCategorieId(categorieId);
+            } catch (NumberFormatException e) {
+                produits = produitService.listWithCategories();
+            }
+        } else {
+            produits = produitService.listWithCategories();
+        }
+
+        List<Categorie> categories = categorieService.findAll();
+
+        model.addAttribute("produits", produits);
+        model.addAttribute("today", LocalDate.now());
+        model.addAttribute("categories", categories);
+        model.addAttribute("selectedCategorieId", categorieId); // pour maintenir la sélection dans la liste déroulante
+        model.addAttribute("isAuthenticated", isAuthenticated);
         return "produit";
     }
 
@@ -44,7 +65,7 @@ public class ProduitController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean isAuthenticated = auth != null && auth.isAuthenticated() && !auth.getName().equals("anonymousUser");
 
-        Page<Produit> produits = produitService.list(pageable); // Utilisation de la pagination
+        Page<Produit> produits = produitService.listPage(pageable); // Utilisation de la pagination
 
         // Génère la liste des numéros de pages
         List<Integer> pageNumbers = IntStream.rangeClosed(1, produits.getTotalPages())

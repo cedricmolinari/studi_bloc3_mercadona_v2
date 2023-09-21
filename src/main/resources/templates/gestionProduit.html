@@ -24,7 +24,7 @@
             <td th:text="${produit.reference}"></td>
             <td th:text="${produit.dateCreation}"></td>
             <td th:text="${produit.libelle}"></td>
-            <td th:text="${produit.prix}"></td>
+            <td class="prixOriginal" th:text="${produit.prix}"></td>
             <td><input class="pourcentagePromo" type="number" min="0" max="100" placeholder="Promo %" /></td>
             <td><input class="promoDebut" type="date" th:value="${today}" /></td>
             <td><input class="promoFin" type="date" th:value="${oneWeekFromNow}" /></td>

@@ -19,7 +19,7 @@ public class Promotion {
     @Column(name = "pourcentage")
     private BigDecimal pourcentage;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "promotion")
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "promotion")
     private Produit produit;
 
     public Promotion(Integer idPromotion, LocalDate dateDebut, LocalDate dateFin, BigDecimal pourcentage) {

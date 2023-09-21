@@ -1,15 +1,19 @@
 document.querySelectorAll('.btnAppliquerPromo').forEach(button => {
     button.addEventListener('click', function(event) {
-        // Récupérez l'ID du produit depuis l'attribut data-id
-        const produitId = event.currentTarget.getAttribute('data-id');
-
         // Trouvez la ligne du tableau parente de ce bouton
         const row = event.currentTarget.closest('tr');
+
+        // Récupérez l'ID du produit depuis l'attribut data-id
+        const produitId = event.currentTarget.getAttribute('data-id');
+        const prixOriginal = parseFloat(row.querySelector('.prixOriginal').textContent);
 
         // Collectez les données du formulaire
         const pourcentagePromo = parseFloat(row.querySelector('.pourcentagePromo').value);
         const promoDebut = row.querySelector('.promoDebut').value;
         const promoFin = row.querySelector('.promoFin').value;
+
+        const prixReduit = prixOriginal * (1 - (pourcentagePromo / 100));
+
 
         // Récupérez le jeton CSRF et son nom d'en-tête depuis les balises meta
         const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');
@@ -41,7 +45,7 @@ document.querySelectorAll('.btnAppliquerPromo').forEach(button => {
             })
             .then(data => {
                 if (data.success) {
-                    alert('Promotion appliquée avec succès !');
+                    alert('Promotion appliquée avec succès ! Nouveau prix : ' + prixReduit.toFixed(2) + ' €');
                 } else {
                     alert('Erreur lors de l\'application de la promotion : ' + data.message);
                 }

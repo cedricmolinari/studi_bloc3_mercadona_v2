@@ -13,7 +13,7 @@ public class Categorie {
 
     @Column(name = "libelle")
     private String libelle;
-    @OneToMany(mappedBy = "categorie", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "categorie", fetch = FetchType.EAGER)
     private List<Produit> produits = new ArrayList<>();
 
     public Categorie(Integer idCategorie, String libelle) {

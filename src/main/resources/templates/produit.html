@@ -2,10 +2,56 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/produit.css}" />
     <title>Liste des produits</title>
 </head>
 <body>
 <a href="/produit/gestion-produit">espace admin</a>
+
+<form th:action="@{/produit}" method="get">
+    <select name="categorie">
+        <option value="">Toutes les catégories</option>
+        <option th:each="categorie : ${categories}"
+                th:value="${categorie.idCategorie}"
+                th:text="${categorie.libelle}"
+                th:selected="${selectedCategorieId != null and categorie.idCategorie == selectedCategorieId}">
+        </option>
+    </select>
+    <button type="submit">Filtrer</button>
+</form>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>Image</th>
+        <th>Référence</th>
+        <th>Date de création</th>
+        <th>Libellé</th>
+        <th>Prix</th>
+        <th>Catégorie</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="produit : ${produits}">
+        <td><img th:src="@{'/images/' + ${produit.cheminImage}}" alt="Image de produit" width="100" /></td> <!-- Ajustez la taille si nécessaire -->
+        <td th:text="${produit.reference}"></td>
+        <td th:text="${produit.dateCreation}"></td>
+        <td th:text="${produit.libelle}"></td>
+        <!-- Si le produit est en promotion, le prix réduit est calculé et affiché en gras et en rouge. Sinon, le prix original est affiché. -->
+        <td th:classappend="${produit.promotion != null && (today.isAfter(produit.promotion.dateDebut) || today.isEqual(produit.promotion.dateDebut)) && (today.isBefore(produit.promotion.dateFin) || today.isEqual(produit.promotion.dateFin)) ? 'promotion-style' : ''}"
+        th:text="${produit.promotion != null && (today.isAfter(produit.promotion.dateDebut) || today.isEqual(produit.promotion.dateDebut)) && (today.isBefore(produit.promotion.dateFin) || today.isEqual(produit.promotion.dateFin)) ?
+            ((produit.prix * (1 - produit.promotion.pourcentage/100)) % 1 == 0 ? ((produit.prix * (1 - produit.promotion.pourcentage/100)).intValue()) + ' €' : (produit.prix * (1 - produit.promotion.pourcentage/100)) + ' €') :
+            produit.prix + ' €'} ">
+        </td>
+
+
+
+        <td th:text="${produit.categorie.libelle}"></td>
+    </tr>
+    </tbody>
+</table>
+
 <div th:if="${isAuthenticated}">
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
