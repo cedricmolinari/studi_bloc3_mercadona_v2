@@ -5,11 +5,21 @@
     <title>Ajouter un article</title>
     <meta name="_csrf" th:content="${_csrf.token}" />
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <link rel="stylesheet" th:href="@{/css/gestionProduit.css}" />
 </head>
 <body>
-<!-- Tableau pour afficher la liste des produits -->
+    <header class="header">
+        <img th:src="@{'/images/000_logo.jpg'}" alt="Logo de Mercadona" class="logo">
+        <h1 class="header-title">Mercadona</h1>
+    </header>
+    <!-- Tableau pour afficher la liste des produits -->
     <table>
         <thead>
+        <!-- Ajout de la ligne de titre -->
+        <tr>
+            <th colspan="7" class="titreTableau">Liste des produits</th>
+        </tr>
+        <!-- Ligne des en-têtes de colonne -->
         <tr>
             <th>Référence</th>
             <th>Date de création</th>
@@ -21,12 +31,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="produit : ${produits}">
+        <tr th:each="produit : ${produitsFormatted}">
             <td th:text="${produit.reference}"></td>
-            <td th:text="${produit.dateCreation}"></td>
+            <td th:text="${produit.formattedDate}"></td>
             <td th:text="${produit.libelle}"></td>
             <td class="prixOriginal" th:text="${produit.prix}"></td>
-            <td><input class="pourcentagePromo" type="number" min="0" max="100" placeholder="Promo %" /></td>
+            <td><input class="pourcentagePromo" type="number" min="0" max="100" placeholder="En %" /></td>
             <td><input class="promoDebut" type="date" th:value="${today}" /></td>
             <td><input class="promoFin" type="date" th:value="${oneWeekFromNow}" /></td>
             <td><button class="btnAppliquerPromo" type="button" th:data-id="${produit.idProduit}">Appliquer Promo</button></td>
@@ -69,48 +79,51 @@
 
 
 <!-- Formulaire d'ajout de produit -->
-    <form th:action="@{gestion-produit/ajout}" th:object="${produitForm}" method="post" enctype="multipart/form-data">
+    <fieldset>
+        <legend>Ajouter un nouveau produit</legend>
+        <form th:action="@{gestion-produit/ajout}" th:object="${produitForm}" method="post" enctype="multipart/form-data">
 
-    <p>Catégorie</p>
-    <p>
-        <select th:field="*{categorieId}">
-            <option th:each="categorie : ${categories}" th:value="${categorie.idCategorie}" th:text="${categorie.libelle}"></option>
-        </select>
-    </p>
-    <div th:if="${#fields.hasErrors('categorieId')}" th:errors="*{categorieId}"></div>
+        <p>Catégorie</p>
+        <p>
+            <select th:field="*{categorieId}" class="center-text">
+                <option th:each="categorie : ${categories}" th:value="${categorie.idCategorie}" th:text="${categorie.libelle}"></option>
+            </select>
+        </p>
+        <div th:if="${#fields.hasErrors('categorieId')}" th:errors="*{categorieId}"></div>
 
-    <p>Libellé</p>
-    <p>
-        <input type="text" th:field="*{libelle}"/>
-    </p>
-    <div th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}"></div>
-    <p>Description</p>
-    <p>
-        <textarea rows="4" cols="50" th:field="*{description}"/>
-    </p>
-    <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+        <p>Libellé</p>
+        <p>
+            <input type="text" th:field="*{libelle}"/>
+        </p>
+        <div th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}"></div>
+        <p>Description</p>
+        <p>
+            <textarea rows="4" cols="50" th:field="*{description}"/>
+        </p>
+        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
 
-    <p>Prix</p>
-    <p>
-        <input type="text" th:field="*{prix}"/>
-    </p>
-    <div th:if="${#fields.hasErrors('prix')}" th:errors="*{prix}"></div>
+        <p>Prix (en €)</p>
+        <p>
+            <input type="text" th:field="*{prix}"/>
+        </p>
+        <div th:if="${#fields.hasErrors('prix')}" th:errors="*{prix}"></div>
 
-    <p>Image</p>
-    <p>
-        <input type="file" th:field="*{imageFile}"/>
-    </p>
-    <div th:if="${#fields.hasErrors('imageFile')}" th:errors="*{imageFile}"></div>
-    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
-    <input type="submit" value="Ajouter"/>
+        <p>Image</p>
+        <p>
+            <input type="file" th:field="*{imageFile}"/>
+        </p>
+        <div th:if="${#fields.hasErrors('imageFile')}" th:errors="*{imageFile}"></div>
+        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+        <input type="submit" value="Ajouter"/>
+        </form>
+    </fieldset>
 
-</form>
 
 <!-- Formulaire de déconnexion -->
-<div th:if="${isAuthenticated}">
+<div th:if="${isAuthenticated}" class="divDeconnexion">
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
-        <input type="submit" value="Déconnexion" />
+        <input type="submit" value="Déconnexion" style="border-color: #FF5733;"/>
     </form>
 </div>
 

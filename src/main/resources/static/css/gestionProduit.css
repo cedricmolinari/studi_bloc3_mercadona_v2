@@ -1,0 +1,129 @@
+/* Styles globaux */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+}
+
+.logo {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.header-title {
+    margin: 0;
+    font-size: 24px;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.titreTableau {
+    text-align: center;
+    font-size: 24px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    text-align: left;
+    line-height: 1.2;
+    padding: 5px 10px;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+
+/* Style pour les promotions */
+.promotion-style {
+    font-weight: bold;
+    color: red;
+}
+
+/* Style pour le formulaire */
+form p {
+    margin: 0px;
+}
+
+legend {
+    font-size: 24px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+textarea {
+    width: 50%;
+    border: 1px solid #ccc;
+}
+
+.center-text {
+    text-align: center;
+    width: 25%;
+}
+
+
+input[type="submit"] {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: 1px solid #FF5733;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Styles pour la pagination */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    display: inline;
+    margin-right: 10px;
+}
+
+li a {
+    text-decoration: none;
+    color: #333;
+}
+
+li.current a {
+    font-weight: bold;
+}
+
+.divDeconnexion {
+    text-align: center;
+}
+
+
+/* Styles pour le pied de page */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}

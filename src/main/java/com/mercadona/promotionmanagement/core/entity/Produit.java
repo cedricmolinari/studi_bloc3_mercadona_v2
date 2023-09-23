@@ -35,6 +35,15 @@ public class Produit {
     @JoinColumn(name = "promotion_id")
     private Promotion promotion;
 
+    @Transient  // Annotation JPA pour indiquer que ce champ n'est pas persistant
+    private String formattedDate;
+    public String getFormattedDate() {
+        return formattedDate;
+    }
+    public void setFormattedDate(String formattedDate) {
+        this.formattedDate = formattedDate;
+    }
+
     public Integer getIdProduit() {
         return idProduit;
     }

@@ -71,4 +71,19 @@ public class ProduitService {
         return produitRepository.findByCategorieId(categorieId);
     }
 
+    public Produit cloneProduit(Produit original) {
+        Produit copy = new Produit();
+        copy.setIdProduit(original.getIdProduit());
+        copy.setReference(original.getReference());
+        copy.setLibelle(original.getLibelle());
+        copy.setDescription(original.getDescription());
+        copy.setPrix(original.getPrix());
+        copy.setCheminImage(original.getCheminImage());
+        copy.setDateCreation(original.getDateCreation());
+        copy.setCategorie(original.getCategorie());
+        copy.setUtilisateur(original.getUtilisateur());
+        copy.setPromotion(original.getPromotion());
+        return copy;
+    }
+
 }

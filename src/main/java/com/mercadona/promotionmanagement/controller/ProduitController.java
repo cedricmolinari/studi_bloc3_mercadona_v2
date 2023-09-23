@@ -7,6 +7,7 @@ import com.mercadona.promotionmanagement.core.service.ProduitService;
 import com.mercadona.promotionmanagement.form.ProduitForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
@@ -17,9 +18,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
 
 @Controller
 public class ProduitController {
@@ -67,6 +71,15 @@ public class ProduitController {
 
         Page<Produit> produits = produitService.listPage(pageable); // Utilisation de la pagination
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        List<Produit> produitsFormatted = new ArrayList<>();
+        for (Produit produit : produits) {
+            Produit copy = produitService.cloneProduit(produit);  // Utilisation d'une méthode de service
+            String formattedDate = produit.getDateCreation().format(formatter);
+            copy.setFormattedDate(formattedDate);
+            produitsFormatted.add(copy);
+        }
+
         // Génère la liste des numéros de pages
         List<Integer> pageNumbers = IntStream.rangeClosed(1, produits.getTotalPages())
                 .boxed()
@@ -74,19 +87,17 @@ public class ProduitController {
 
         model.addAttribute("pageNumbers", pageNumbers);
         model.addAttribute("produitForm", new ProduitForm());
-        model.addAttribute("produits", produits); // Ajout de la liste paginée des produits au modèle
-        List<Categorie> categories = categorieService.findAll();
-        model.addAttribute("categories", categories);
+        model.addAttribute("produits", produits);  // Pour la pagination
+        model.addAttribute("produitsFormatted", produitsFormatted);  // Pour l'affichage
+        model.addAttribute("categories", categorieService.findAll());
         model.addAttribute("isAuthenticated", isAuthenticated);
 
-        LocalDate today = LocalDate.now();
-        LocalDate oneWeekFromNow = today.plusDays(7);
-        model.addAttribute("today", today);
-        model.addAttribute("oneWeekFromNow", oneWeekFromNow);
-
+        model.addAttribute("today", LocalDate.now());
+        model.addAttribute("oneWeekFromNow", LocalDate.now().plusDays(7));
 
         return "gestionProduit";
     }
+
 
 
 }
