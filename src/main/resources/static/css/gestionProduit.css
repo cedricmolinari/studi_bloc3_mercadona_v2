@@ -26,6 +26,16 @@ body {
     font-size: 24px;
 }
 
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content-wrap {
+    flex: 1;
+}
+
 
 table {
     width: 100%;
@@ -127,3 +137,41 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+/* Responsive */
+@media only screen and (max-width: 768px) {
+    table {
+        overflow-x: auto;
+        display: block;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .header-title {
+        font-size: 18px;
+    }
+    .logo {
+        width: 30px;
+    }
+}
+@media only screen and (max-width: 768px) {
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    textarea {
+        width: 100%;
+    }
+}
+@media only screen and (max-width: 768px) {
+    footer {
+        font-size: 12px;
+    }
+}
+@media only screen and (max-width: 768px) {
+    .divDeconnexion input[type="submit"] {
+        padding: 15px 30px;
+    }
+}
+
+
+
+

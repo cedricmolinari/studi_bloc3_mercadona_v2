@@ -7,143 +7,147 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <link rel="stylesheet" th:href="@{/css/gestionProduit.css}" />
 </head>
+
 <body>
-    <header class="header">
-        <img th:src="@{'/images/000_logo.jpg'}" alt="Logo de Mercadona" class="logo">
-        <h1 class="header-title">Mercadona</h1>
-    </header>
-    <!-- Tableau pour afficher la liste des produits -->
-    <table>
-        <thead>
-        <!-- Ajout de la ligne de titre -->
-        <tr>
-            <th colspan="7" class="titreTableau">Liste des produits</th>
-        </tr>
-        <!-- Ligne des en-têtes de colonne -->
-        <tr>
-            <th>Référence</th>
-            <th>Date de création</th>
-            <th>Libellé</th>
-            <th>Prix</th>
-            <th>Promotion</th>
-            <th>Début promotion</th>
-            <th>Fin promotion</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="produit : ${produitsFormatted}">
-            <td th:text="${produit.reference}"></td>
-            <td th:text="${produit.formattedDate}"></td>
-            <td th:text="${produit.libelle}"></td>
-            <td class="prixOriginal" th:text="${produit.prix}"></td>
-            <td><input class="pourcentagePromo" type="number" min="0" max="100" placeholder="En %" /></td>
-            <td><input class="promoDebut" type="date" th:value="${today}" /></td>
-            <td><input class="promoFin" type="date" th:value="${oneWeekFromNow}" /></td>
-            <td><button class="btnAppliquerPromo" type="button" th:data-id="${produit.idProduit}">Appliquer Promo</button></td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="page-container">
+        <div class="content-wrap">
+            <header class="header">
+                <img th:src="@{'/images/000_logo.jpg'}" alt="Logo de Mercadona" class="logo">
+                <h1 class="header-title">Mercadona</h1>
+            </header>
+            <!-- Tableau pour afficher la liste des produits -->
+            <table>
+                <thead>
+                <!-- Ajout de la ligne de titre -->
+                <tr>
+                    <th colspan="7" class="titreTableau">Liste des produits</th>
+                </tr>
+                <!-- Ligne des en-têtes de colonne -->
+                <tr>
+                    <th>Référence</th>
+                    <th>Date de création</th>
+                    <th>Libellé</th>
+                    <th>Prix</th>
+                    <th>Promotion</th>
+                    <th>Début promotion</th>
+                    <th>Fin promotion</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="produit : ${produitsFormatted}">
+                    <td th:text="${produit.reference}"></td>
+                    <td th:text="${produit.formattedDate}"></td>
+                    <td th:text="${produit.libelle}"></td>
+                    <td class="prixOriginal" th:text="${produit.prix}"></td>
+                    <td><input class="pourcentagePromo" type="number" min="0" max="100" placeholder="En %" /></td>
+                    <td><input class="promoDebut" type="date" th:value="${today}" /></td>
+                    <td><input class="promoFin" type="date" th:value="${oneWeekFromNow}" /></td>
+                    <td><button class="btnAppliquerPromo" type="button" th:data-id="${produit.idProduit}">Appliquer Promo</button></td>
+                </tr>
+                </tbody>
+            </table>
 
-    <!-- Contrôles de pagination -->
-<div>
-    <ul>
-        <!-- Première page -->
-        <li th:if="${produits.first}">Première page</li>
-        <li th:if="${!produits.first}"><a th:href="@{?page=0}">Première page</a></li>
+                <!-- Contrôles de pagination -->
+            <div>
+                <ul>
+                    <!-- Première page -->
+                    <li th:if="${produits.first}">Première page</li>
+                    <li th:if="${!produits.first}"><a th:href="@{?page=0}">Première page</a></li>
 
-        <!-- Précédent -->
-        <li th:if="${produits.hasPrevious()}" th:with="prevPage=${produits.number - 1}">
-            <a th:href="@{|?page=${prevPage}|}">Précédent</a>
-        </li>
-        <li th:if="${!produits.hasPrevious()}">Précédent</li>
+                    <!-- Précédent -->
+                    <li th:if="${produits.hasPrevious()}" th:with="prevPage=${produits.number - 1}">
+                        <a th:href="@{|?page=${prevPage}|}">Précédent</a>
+                    </li>
+                    <li th:if="${!produits.hasPrevious()}">Précédent</li>
 
-        <!-- Numéros des pages -->
-        <li th:each="pageNumber : ${pageNumbers}" th:class="${pageNumber == produits.number + 1 ? 'current' : ''}">
-            <a th:href="@{|?page=${pageNumber - 1}|}" th:text="${pageNumber}"></a>
-        </li>
+                    <!-- Numéros des pages -->
+                    <li th:each="pageNumber : ${pageNumbers}" th:class="${pageNumber == produits.number + 1 ? 'current' : ''}">
+                        <a th:href="@{|?page=${pageNumber - 1}|}" th:text="${pageNumber}"></a>
+                    </li>
 
-        <!-- Suivant -->
-        <li th:if="${produits.hasNext()}" th:with="nextPage=${produits.number + 1}">
-            <a th:href="@{|?page=${nextPage}|}">Suivant</a>
-        </li>
-        <li th:if="${!produits.hasNext()}">Suivant</li>
+                    <!-- Suivant -->
+                    <li th:if="${produits.hasNext()}" th:with="nextPage=${produits.number + 1}">
+                        <a th:href="@{|?page=${nextPage}|}">Suivant</a>
+                    </li>
+                    <li th:if="${!produits.hasNext()}">Suivant</li>
 
-        <!-- Dernière page -->
-        <li th:if="${produits.last}">Dernière page</li>
-        <li th:if="${!produits.last}" th:with="lastPage=${produits.totalPages - 1}">
-            <a th:href="@{|?page=${lastPage}|}">Dernière page</a>
-        </li>
-    </ul>
-</div>
-
-
-
-<!-- Formulaire d'ajout de produit -->
-    <fieldset>
-        <legend>Ajouter un nouveau produit</legend>
-        <form th:action="@{gestion-produit/ajout}" th:object="${produitForm}" method="post" enctype="multipart/form-data">
-
-        <p>Catégorie</p>
-        <p>
-            <select th:field="*{categorieId}" class="center-text">
-                <option th:each="categorie : ${categories}" th:value="${categorie.idCategorie}" th:text="${categorie.libelle}"></option>
-            </select>
-        </p>
-        <div th:if="${#fields.hasErrors('categorieId')}" th:errors="*{categorieId}"></div>
-
-        <p>Libellé</p>
-        <p>
-            <input type="text" th:field="*{libelle}"/>
-        </p>
-        <div th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}"></div>
-        <p>Description</p>
-        <p>
-            <textarea rows="4" cols="50" th:field="*{description}"/>
-        </p>
-        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
-
-        <p>Prix (en €)</p>
-        <p>
-            <input type="text" th:field="*{prix}"/>
-        </p>
-        <div th:if="${#fields.hasErrors('prix')}" th:errors="*{prix}"></div>
-
-        <p>Image</p>
-        <p>
-            <input type="file" th:field="*{imageFile}"/>
-        </p>
-        <div th:if="${#fields.hasErrors('imageFile')}" th:errors="*{imageFile}"></div>
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
-        <input type="submit" value="Ajouter"/>
-        </form>
-    </fieldset>
+                    <!-- Dernière page -->
+                    <li th:if="${produits.last}">Dernière page</li>
+                    <li th:if="${!produits.last}" th:with="lastPage=${produits.totalPages - 1}">
+                        <a th:href="@{|?page=${lastPage}|}">Dernière page</a>
+                    </li>
+                </ul>
+            </div>
 
 
-<!-- Formulaire de déconnexion -->
-<div th:if="${isAuthenticated}" class="divDeconnexion">
-    <form action="/logout" method="post">
-        <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
-        <input type="submit" value="Déconnexion" style="border-color: #FF5733;"/>
-    </form>
-</div>
+
+            <!-- Formulaire d'ajout de produit -->
+            <fieldset>
+                <legend>Ajouter un nouveau produit</legend>
+                <form th:action="@{gestion-produit/ajout}" th:object="${produitForm}" method="post" enctype="multipart/form-data">
+
+                <p>Catégorie</p>
+                <p>
+                    <select th:field="*{categorieId}" class="center-text">
+                        <option th:each="categorie : ${categories}" th:value="${categorie.idCategorie}" th:text="${categorie.libelle}"></option>
+                    </select>
+                </p>
+                <div th:if="${#fields.hasErrors('categorieId')}" th:errors="*{categorieId}"></div>
+
+                <p>Libellé</p>
+                <p>
+                    <input type="text" th:field="*{libelle}"/>
+                </p>
+                <div th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}"></div>
+                <p>Description</p>
+                <p>
+                    <textarea rows="4" cols="50" th:field="*{description}"/>
+                </p>
+                <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+
+                <p>Prix (en €)</p>
+                <p>
+                    <input type="text" th:field="*{prix}"/>
+                </p>
+                <div th:if="${#fields.hasErrors('prix')}" th:errors="*{prix}"></div>
+
+                <p>Image</p>
+                <p>
+                    <input type="file" th:field="*{imageFile}"/>
+                </p>
+                <div th:if="${#fields.hasErrors('imageFile')}" th:errors="*{imageFile}"></div>
+                <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                <input type="submit" value="Ajouter"/>
+                </form>
+            </fieldset>
 
 
-<footer style="background-color: #333; color: white; padding: 20px; text-align: center;">
-    <h4>Mentions Légales</h4>
-    <p>Mercadona est une entreprise du secteur du retail avec 1675 magasins en Espagne et un chiffre d'affaires de 20 milliards d'euros.</p>
-    <p>Notre engagement envers le développement durable nous amène à remplacer nos tracts publicitaires par cette application web, développée en collaboration avec PromoWeb.</p>
-    <p>Responsable du projet chez Mercadona : José</p>
-    <p>Tous droits réservés &copy; Mercadona, 2023</p>
-</footer>
+            <!-- Formulaire de déconnexion -->
+            <div th:if="${isAuthenticated}" class="divDeconnexion">
+                <form action="/logout" method="post">
+                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+                    <input type="submit" value="Déconnexion" style="border-color: #FF5733;"/>
+                </form>
+            </div>
+        </div>
 
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    var message = /*[[${message}]]*/ 'default';
-    if (message && message !== 'default') {
-        alert(message);
-    }
-    /*]]>*/
-</script>
-<script src="/gestionProduit.js"></script>
+        <footer style="background-color: #333; color: white; padding: 20px; text-align: center;">
+            <h4>Mentions Légales</h4>
+            <p>Mercadona est une entreprise du secteur du retail avec 1675 magasins en Espagne et un chiffre d'affaires de 20 milliards d'euros.</p>
+            <p>Notre engagement envers le développement durable nous amène à remplacer nos tracts publicitaires par cette application web, développée en collaboration avec PromoWeb.</p>
+            <p>Responsable du projet chez Mercadona : José</p>
+            <p>Tous droits réservés &copy; Mercadona, 2023</p>
+        </footer>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var message = /*[[${message}]]*/ 'default';
+        if (message && message !== 'default') {
+            alert(message);
+        }
+        /*]]>*/
+    </script>
+    <script src="/gestionProduit.js"></script>
 </body>
 </html>
