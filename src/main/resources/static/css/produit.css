@@ -1,4 +1,153 @@
+/* Styles globaux */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.header {
+    display: flex;
+    align-items: center; /* Centré verticalement */
+    justify-content: space-between; /* Espacé le plus possible */
+    padding: 10px;
+    background-color: #333;
+    color: white;
+}
+
+.header-left, .header-right {
+    display: flex;
+    align-items: center; /* Centré verticalement */
+}
+
+
+
+.logo {
+    width: 50px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.header-title {
+    margin: 0;
+    font-size: 24px;
+}
+
+.header-right a {
+    color: deepskyblue; /* Pour faire correspondre la couleur du texte du lien avec celle du header */
+    text-decoration: none; /* Pour enlever le soulignement du lien */
+    padding-left: 20px; /* Pour ajouter un peu d'espace à gauche du lien */
+}
+
+.page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.content-wrap {
+    flex: 1;
+}
+
+.categorie-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.categorie-btn {
+    display: inline-block;
+    text-align: center;
+    align-items: center;
+    /*padding: 1px;*/
+    margin: 1px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    width: 150px;  /* Largeur de la box */
+    height: 50px;  /* Hauteur de la box */
+    /*box-sizing: border-box;*/
+    flex: 1;
+}
+
+.toutes-categories-container {
+    margin-top: 20px;  /* Espace entre les deux sets de boutons */
+    text-align: center;
+}
+
+.toutes-categories-btn {
+    padding: 10px;
+    margin: 5px auto;  /* 'auto' pour centrer le bouton */
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    display: block;
+    width: 25%;  /* Ajuster la largeur au contenu */
+}
+
+
+
+
+table {
+    width: 50%;  /* Largeur du tableau */
+    margin: 20px auto;  /* Centrer le tableau horizontalement */
+    border-collapse: collapse;
+    align-items: center;
+}
+
 .promotion-style {
     font-weight: bold;
     color: red;
+}
+
+.titreTableau {
+    text-align: center;
+    font-size: 24px;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    text-align: left;
+    line-height: 1.2;
+    padding: 5px 10px;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+
+td {
+    position: relative;
+}
+
+td img {
+    width: 100%;        /* Prendre toute la largeur du conteneur */
+    object-fit: cover;  /* Redimensionner l'image pour remplir le conteneur tout en maintenant l'aspect ratio */
+    top: 0;             /* Aligné en haut */
+    left: 0;            /* Aligné à gauche */
+}
+
+input[type="submit"] {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: 1px solid #FF5733;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* Styles pour le pied de page */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
 }

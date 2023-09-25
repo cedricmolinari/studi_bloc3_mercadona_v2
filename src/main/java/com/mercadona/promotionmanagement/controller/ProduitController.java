@@ -34,6 +34,15 @@ public class ProduitController {
         this.produitService = produitService;
         this.categorieService = categorieService; // Initialisation de CategorieService
     }
+    private List<Produit> formatProduitsDates(List<Produit> produits) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return produits.stream().map(produit -> {
+            Produit copy = produitService.cloneProduit(produit);
+            String formattedDate = produit.getDateCreation().format(formatter);
+            copy.setFormattedDate(formattedDate);
+            return copy;
+        }).collect(Collectors.toList());
+    }
 
     @GetMapping("/produit")
     public String displayProduits(@RequestParam(value = "categorie", required = false) String categorieString, Model model) {
@@ -43,6 +52,7 @@ public class ProduitController {
         List<Produit> produits;
         Integer categorieId = null;
 
+        // Initialization of produits
         if (categorieString != null && !categorieString.trim().isEmpty()) {
             try {
                 categorieId = Integer.parseInt(categorieString);
@@ -54,12 +64,12 @@ public class ProduitController {
             produits = produitService.listWithCategories();
         }
 
-        List<Categorie> categories = categorieService.findAll();
+        List<Produit> produitsFormatted = formatProduitsDates(produits);
 
-        model.addAttribute("produits", produits);
+        model.addAttribute("produitsFormatted", produitsFormatted);
         model.addAttribute("today", LocalDate.now());
-        model.addAttribute("categories", categories);
-        model.addAttribute("selectedCategorieId", categorieId); // pour maintenir la sélection dans la liste déroulante
+        model.addAttribute("categories", categorieService.findAll());
+        model.addAttribute("selectedCategorieId", categorieId);
         model.addAttribute("isAuthenticated", isAuthenticated);
         return "produit";
     }
@@ -69,17 +79,8 @@ public class ProduitController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean isAuthenticated = auth != null && auth.isAuthenticated() && !auth.getName().equals("anonymousUser");
 
-        Page<Produit> produits = produitService.listPage(pageable); // Utilisation de la pagination
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        List<Produit> produitsFormatted = new ArrayList<>();
-        for (Produit produit : produits) {
-            Produit copy = produitService.cloneProduit(produit);  // Utilisation d'une méthode de service
-            String formattedDate = produit.getDateCreation().format(formatter);
-            copy.setFormattedDate(formattedDate);
-            produitsFormatted.add(copy);
-        }
-
+        Page<Produit> produits = produitService.listPage(pageable);
+        List<Produit> produitsFormatted = formatProduitsDates(produits.getContent());
         // Génère la liste des numéros de pages
         List<Integer> pageNumbers = IntStream.rangeClosed(1, produits.getTotalPages())
                 .boxed()
@@ -87,11 +88,10 @@ public class ProduitController {
 
         model.addAttribute("pageNumbers", pageNumbers);
         model.addAttribute("produitForm", new ProduitForm());
-        model.addAttribute("produits", produits);  // Pour la pagination
-        model.addAttribute("produitsFormatted", produitsFormatted);  // Pour l'affichage
+        model.addAttribute("produits", produits);
+        model.addAttribute("produitsFormatted", produitsFormatted);
         model.addAttribute("categories", categorieService.findAll());
         model.addAttribute("isAuthenticated", isAuthenticated);
-
         model.addAttribute("today", LocalDate.now());
         model.addAttribute("oneWeekFromNow", LocalDate.now().plusDays(7));
 
