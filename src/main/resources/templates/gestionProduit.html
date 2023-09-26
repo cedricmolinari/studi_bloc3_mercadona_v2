@@ -98,18 +98,25 @@
                 <p>
                     <input type="text" th:field="*{libelle}"/>
                 </p>
-                <div th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}"></div>
+<!--                <div th:if="${#fields.hasErrors('libelle')}" th:errors="*{libelle}"></div>-->
+                <div th:if="${errorMessageLibelle}">
+                    <p th:text="${errorMessageLibelle}" style="color: red;"></p>
+                </div>
                 <p>Description</p>
                 <p>
                     <textarea rows="4" cols="50" th:field="*{description}"/>
                 </p>
-                <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+                <div th:if="${errorMessageDescription}">
+                    <p th:text="${errorMessageDescription}" style="color: red;"></p>
+                </div>
 
                 <p>Prix (en €)</p>
                 <p>
                     <input type="text" th:field="*{prix}"/>
                 </p>
-                <div th:if="${#fields.hasErrors('prix')}" th:errors="*{prix}"></div>
+                <div th:if="${errorMessagePrix}">
+                    <p th:text="${errorMessagePrix}" style="color: red;"></p>
+                </div>
 
                 <p>Image</p>
                 <p>
@@ -118,6 +125,20 @@
                 <div th:if="${#fields.hasErrors('imageFile')}" th:errors="*{imageFile}"></div>
                 <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
                 <input type="submit" value="Ajouter"/>
+
+                <!--erreur si image vide-->
+                <div th:if="${errorMessageImgVide}">
+                    <p th:text="${errorMessageImgVide}" style="color: red;"></p>
+                </div>
+                <!--erreur si type image <> jpeg-->
+                <div th:if="${errorMessageImgType}">
+                    <p th:text="${errorMessageImgType}" style="color: red;"></p>
+                </div>
+                <!--erreur si image > 2 MO-->
+                <div th:if="${errorMessageImgTaille}">
+                    <p th:text="${errorMessageImgTaille}" style="color: red;"></p>
+                </div>
+
                 </form>
             </fieldset>
 

@@ -2,17 +2,14 @@ package com.mercadona.promotionmanagement.form;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 public class ProduitForm {
     private Long idProduit;
     private String reference;
-    @NotBlank(message = "Veuillez entrer un libellé")
-    @Size(max = 20)
+    @NotEmpty(message = "Le libellé ne peut pas être vide")
+    @Size(max = 50, message = "Le libellé ne peut pas excéder 50 caractères")
     private String libelle;
     @NotBlank(message = "Veuillez entrer une description")
     @Size(max = 255)

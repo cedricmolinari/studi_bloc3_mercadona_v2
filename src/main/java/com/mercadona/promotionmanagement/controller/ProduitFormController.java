@@ -6,6 +6,7 @@ import com.mercadona.promotionmanagement.core.repository.ProduitRepository;
 import com.mercadona.promotionmanagement.core.service.CategorieService;
 import com.mercadona.promotionmanagement.core.service.ProduitService;
 import com.mercadona.promotionmanagement.form.ProduitForm;
+import com.mercadona.promotionmanagement.config.StorageException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,13 +38,40 @@ public class ProduitFormController {
     private CategorieService categorieService;
     @Autowired
     private ProduitRepository produitRepository;
+
     @Transactional
     @PostMapping("produit/gestion-produit/ajout")
     public String ajouterProduitEtImage(@Valid @ModelAttribute ProduitForm form, BindingResult results, RedirectAttributes redirectAttributes) {
+
+// Gestion des contraintes de saisie de formulaire
+        MultipartFile imageFile = form.getImageFile();
+        String description = form.getDescription();
+
         if (results.hasErrors()) {
-            logger.warn("Erreur dans le formulaire d'ajout de l'produit.");
-            return "gestionProduit";
+            logger.warn("Erreur dans le formulaire d'ajout du produit.");
+            if (imageFile == null || imageFile.isEmpty()) {
+                redirectAttributes.addFlashAttribute("errorMessageImgVide", "L'image est requise");
+            }
+            if (!"image/png".equals(imageFile.getContentType()) && !"image/jpeg".equals(imageFile.getContentType())) {
+                redirectAttributes.addFlashAttribute("errorMessageImgType", "Seul le format .jpeg est autorisé");
+            }
+            if (imageFile.getSize() > 2 * 1024 * 1024) { // Taille en octets (2 MB)
+                redirectAttributes.addFlashAttribute("errorMessageImgTaille", "La taille de l'image est limitée à 2 MO");
+            }
+            if (results.getFieldError("libelle") != null) {
+                redirectAttributes.addFlashAttribute("errorMessageLibelle", "Le libellé ne peut pas être vide ou excéder une certaine taille");
+            }
+            if (description.length() > 255) {
+                redirectAttributes.addFlashAttribute("errorMessageDescription", "La description ne peut excéder 255 caractères");
+            }
+            if (results.getFieldError("prix") != null) {
+                redirectAttributes.addFlashAttribute("errorMessagePrix", "Le prix doit être supérieur à 0");
+            }
+
+            return "redirect:/produit/gestion-produit";
         }
+
+
 
         Produit produit = new Produit();
         produit.setLibelle(form.getLibelle());
@@ -59,11 +87,11 @@ public class ProduitFormController {
         produit.setReference(newReference);
 
 // Sauvegarde de l'image et mise à jour du chemin dans l'entité Produit
-        MultipartFile imageFile = form.getImageFile();
         if (imageFile != null && !imageFile.isEmpty()) {
             String fileName = saveImage(imageFile);
             produit.setCheminImage(fileName);  // Enregistrement du chemin dans l'entité Produit
         }
+
 
 // Sauvegarde de l'entité Produit dans la base de données
         // Sauvegarde de l'entité Produit dans la base de données
