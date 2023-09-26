@@ -44,7 +44,7 @@
                     <tr>
                         <!-- Image du produit -->
                         <td rowspan="6">
-                            <img th:src="@{'/images/' + ${produit.cheminImage}}" alt="Image de produit" width="100" />
+                            <img th:src="@{'/images/' + ${produit.cheminImage}}" alt="Image de produit" width="100px"/>
                         </td>
                         <!-- Référence du produit -->
                         <td th:text="'Référence : ' + ${produit.reference}"></td>
@@ -72,7 +72,7 @@
                     </tr>
                     <!-- Catégorie du produit -->
                     <tr>
-                        <td th:text="'Catégorie : ' + ${produit.categorie.libelle}"></td>
+                        <td class="bordure-bas-epaisse" th:text="'Catégorie : ' + ${produit.categorie.libelle}"></td>
                     </tr>
                 </th:block>
                 <!-- Fin de la boucle -->

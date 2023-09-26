@@ -1,9 +1,9 @@
 /* Styles globaux */
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
+    margin: 0px 30px 0px 35px;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #cccccc;
 }
 
 .header {
@@ -121,13 +121,21 @@ th {
 
 td {
     position: relative;
+    width: 100px;
+}
+
+td.bordure-bas-epaisse {
+    border-bottom: 2px solid black;  /* 3px pour une bordure épaisse, 'solid' pour une bordure continue, 'black' pour la couleur noire */
 }
 
 td img {
-    width: 100%;        /* Prendre toute la largeur du conteneur */
-    object-fit: cover;  /* Redimensionner l'image pour remplir le conteneur tout en maintenant l'aspect ratio */
-    top: 0;             /* Aligné en haut */
-    left: 0;            /* Aligné à gauche */
+    position: absolute;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-bottom: 3px solid black;
 }
 
 input[type="submit"] {
@@ -149,5 +157,12 @@ footer {
     color: white;
     text-align: center;
     padding: 20px;
-    width: 100%;
+    font-size: 20px;
+}
+
+/* Responsive */
+@media only screen and (max-width: 1000px) {
+    footer {
+        font-size: 9px;
+    }
 }
