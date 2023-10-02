@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Promotion</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mercadona.promotionmanagement.core.entity</a>
+</div>
+
+<h1>Coverage Summary for Class: Promotion (com.mercadona.promotionmanagement.core.entity)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Promotion</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (8/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (8/16)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Promotion$HibernateProxy$spYGgvgM</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (8/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (8/16)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mercadona.promotionmanagement.core.entity;
+&nbsp;
+&nbsp;import javax.persistence.*;
+&nbsp;
+&nbsp;import java.math.BigDecimal;
+&nbsp;import java.time.LocalDate;
+&nbsp;
+&nbsp;@Entity
+&nbsp;@Table(name = &quot;Promotion&quot;)
+&nbsp;public class Promotion {
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+&nbsp;    private Integer idPromotion;
+&nbsp;
+&nbsp;    @Column(name = &quot;date_debut&quot;)
+&nbsp;    private LocalDate dateDebut;
+&nbsp;    @Column(name = &quot;date_fin&quot;)
+&nbsp;    private LocalDate dateFin;
+&nbsp;    @Column(name = &quot;pourcentage&quot;)
+&nbsp;    private BigDecimal pourcentage;
+&nbsp;
+&nbsp;    @OneToOne(fetch = FetchType.EAGER, mappedBy = &quot;promotion&quot;)
+&nbsp;    private Produit produit;
+&nbsp;
+<b class="nc">&nbsp;    public Promotion(Integer idPromotion, LocalDate dateDebut, LocalDate dateFin, BigDecimal pourcentage) {</b>
+<b class="nc">&nbsp;        this.idPromotion = idPromotion;</b>
+<b class="nc">&nbsp;        this.dateDebut = dateDebut;</b>
+<b class="nc">&nbsp;        this.dateFin = dateFin;</b>
+<b class="nc">&nbsp;        this.pourcentage = pourcentage;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public Promotion() {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Integer getIdPromotion() {
+<b class="nc">&nbsp;        return idPromotion;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setIdPromotion(Integer idPromotion) {
+<b class="fc">&nbsp;        this.idPromotion = idPromotion;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public LocalDate getDateDebut() {
+<b class="fc">&nbsp;        return dateDebut;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setDateDebut(LocalDate dateDebut) {
+<b class="fc">&nbsp;        this.dateDebut = dateDebut;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public LocalDate getDateFin() {
+<b class="fc">&nbsp;        return dateFin;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setDateFin(LocalDate dateFin) {
+<b class="fc">&nbsp;        this.dateFin = dateFin;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public BigDecimal getPourcentage() {
+<b class="fc">&nbsp;        return pourcentage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setPourcentage(BigDecimal pourcentage) {
+<b class="fc">&nbsp;        this.pourcentage = pourcentage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Produit getProduit() {
+<b class="nc">&nbsp;        return produit;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setProduit(Produit produit) {
+<b class="nc">&nbsp;        this.produit = produit;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-10-02 22:45</div>
+</div>
+</body>
+</html>

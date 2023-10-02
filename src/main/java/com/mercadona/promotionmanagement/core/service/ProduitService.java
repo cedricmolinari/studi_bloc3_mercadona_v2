@@ -31,7 +31,7 @@ public class ProduitService {
     }
 
     public Produit findById(Integer id) {
-        // Utilisez la méthode findById du ProduitRepository pour récupérer l'produit par son identifiant
+        // La méthode findById du ProduitRepository pour récupérer l'produit par son identifiant
         return produitRepository.findById(id).orElse(null);
     }
 

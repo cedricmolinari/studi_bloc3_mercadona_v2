@@ -1,0 +1,104 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ProduitRepository</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mercadona.promotionmanagement.core.repository</a>
+</div>
+
+<h1>Coverage Summary for Class: ProduitRepository (com.mercadona.promotionmanagement.core.repository)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+</tr>
+  <tr>
+    <td class="name">ProduitRepository$MockitoMock$1972678767</td>
+  </tr>
+  <tr>
+    <td class="name">ProduitRepository$MockitoMock$1972678767$auxiliary$evc6G4rL</td>
+  </tr>
+  <tr>
+    <td class="name">ProduitRepository$MockitoMock$1972678767$auxiliary$qb6uQey5</td>
+  </tr>
+  <tr>
+    <td class="name">ProduitRepository$MockitoMock$1972678767$auxiliary$Vou845iW</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mercadona.promotionmanagement.core.repository;
+&nbsp;
+&nbsp;import com.mercadona.promotionmanagement.core.entity.Produit;
+&nbsp;import org.springframework.data.jpa.repository.JpaRepository;
+&nbsp;import org.springframework.data.jpa.repository.Query;
+&nbsp;import org.springframework.data.repository.query.Param;
+&nbsp;import org.springframework.stereotype.Repository;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Repository
+&nbsp;public interface ProduitRepository extends JpaRepository&lt;Produit, Integer&gt; {
+&nbsp;    @Query(value = &quot;SELECT RIGHT(reference, 6) FROM produit WHERE reference LIKE :prefix% ORDER BY reference DESC LIMIT 1&quot;, nativeQuery = true)
+&nbsp;    String findLatestReferenceForCategory(@Param(&quot;prefix&quot;) String prefix);
+&nbsp;    List&lt;Produit&gt; findByCategorieLibelle(String libelle);
+&nbsp;
+&nbsp;    @Query(&quot;SELECT p FROM Produit p JOIN FETCH p.categorie&quot;)
+&nbsp;    List&lt;Produit&gt; findAllWithCategories();
+&nbsp;
+&nbsp;    @Query(&quot;SELECT p FROM Produit p WHERE p.categorie.idCategorie = :idCategorie&quot;)
+&nbsp;    List&lt;Produit&gt; findByCategorieId(@Param(&quot;idCategorie&quot;) Integer idCategorie);
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-10-02 22:45</div>
+</div>
+</body>
+</html>

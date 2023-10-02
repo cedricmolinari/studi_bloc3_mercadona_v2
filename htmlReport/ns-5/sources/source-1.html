@@ -1,0 +1,163 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Categorie</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.mercadona.promotionmanagement.core.entity</a>
+</div>
+
+<h1>Coverage Summary for Class: Categorie (com.mercadona.promotionmanagement.core.entity)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Categorie</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (4/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    63,6%
+  </span>
+  <span class="absValue">
+    (7/11)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Categorie$HibernateProxy$US7WHvrA</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (4/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    63,6%
+  </span>
+  <span class="absValue">
+    (7/11)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.mercadona.promotionmanagement.core.entity;
+&nbsp;
+&nbsp;import javax.persistence.*;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;@Entity
+&nbsp;@Table(name = &quot;Categorie&quot;)
+&nbsp;public class Categorie {
+&nbsp;    @Id
+&nbsp;    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+&nbsp;    private Integer idCategorie;
+&nbsp;
+&nbsp;    @Column(name = &quot;libelle&quot;)
+&nbsp;    private String libelle;
+<b class="fc">&nbsp;    @OneToMany(mappedBy = &quot;categorie&quot;, fetch = FetchType.EAGER)</b>
+&nbsp;    private List&lt;Produit&gt; produits = new ArrayList&lt;&gt;();
+&nbsp;
+<b class="fc">&nbsp;    public Categorie(Integer idCategorie, String libelle) {</b>
+<b class="fc">&nbsp;        this.idCategorie = idCategorie;</b>
+<b class="fc">&nbsp;        this.libelle = libelle;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public List&lt;Produit&gt; getProduits() {
+<b class="nc">&nbsp;        return produits;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setProduits(List&lt;Produit&gt; produits) {
+<b class="nc">&nbsp;        this.produits = produits;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public Categorie() {</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public Integer getIdCategorie() {
+<b class="nc">&nbsp;        return idCategorie;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setIdCategorie(Integer idCategorie) {
+<b class="nc">&nbsp;        this.idCategorie = idCategorie;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public String getLibelle() {
+<b class="fc">&nbsp;        return libelle;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setLibelle(String libelle) {
+<b class="fc">&nbsp;        this.libelle = libelle;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-10-02 22:45</div>
+</div>
+</body>
+</html>

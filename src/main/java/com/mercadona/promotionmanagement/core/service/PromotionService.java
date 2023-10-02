@@ -34,5 +34,4 @@ public class PromotionService {
         return promotionRepository.findById(id);
     }
 
-    // Vous pouvez ajouter d'autres méthodes selon vos besoins, par exemple pour mettre à jour ou supprimer une promotion.
 }
