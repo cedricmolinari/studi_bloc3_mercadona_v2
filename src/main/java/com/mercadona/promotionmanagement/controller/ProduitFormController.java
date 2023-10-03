@@ -6,14 +6,12 @@ import com.mercadona.promotionmanagement.core.repository.ProduitRepository;
 import com.mercadona.promotionmanagement.core.service.CategorieService;
 import com.mercadona.promotionmanagement.core.service.ProduitService;
 import com.mercadona.promotionmanagement.form.ProduitForm;
-import com.mercadona.promotionmanagement.config.StorageException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +25,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 import java.util.UUID;
 @Controller
 public class ProduitFormController {
@@ -63,7 +60,6 @@ public class ProduitFormController {
         String description = form.getDescription();
 
         if (results.hasErrors()) {
-            logger.warn("Erreur dans le formulaire d'ajout du produit.");
             if (imageFile == null || imageFile.isEmpty()) {
                 redirectAttributes.addFlashAttribute("errorMessageImgVide", "L'image est requise");
             }
@@ -82,10 +78,9 @@ public class ProduitFormController {
             if (prix != null && prix.doubleValue() < 0) {
                 redirectAttributes.addFlashAttribute("errorMessagePrix", "Le prix doit être supérieur à 0");
             }
-            /*if (results.getFieldError("libelle") != null) {
+            if (results.getFieldError("libelle") != null) {
                 redirectAttributes.addFlashAttribute("errorMessageLibelle", "Le libellé ne peut pas être vide ou excéder une certaine taille");
-            }*/
-
+            }
 
             return "redirect:/produit/gestion-produit";
         }
@@ -113,8 +108,6 @@ public class ProduitFormController {
 
 
 // Sauvegarde de l'entité Produit dans la base de données
-        // Sauvegarde de l'entité Produit dans la base de données
-
         produitService.save(produit);
         System.out.println("Dans le contrôleur, produitService est : " + this.produitService);
 
@@ -134,23 +127,23 @@ public class ProduitFormController {
 
         logger.debug("Sauvegarde de l'image: {}", file.getOriginalFilename());
         try {
-            // Définir le chemin où vous souhaitez sauvegarder l'image
+            // Définit le chemin où sauvegarder l'image
             String folder = "src/main/resources/static/images/";
 
-            // Construire un nom de fichier unique pour éviter les collisions
+            // Construit un nom de fichier unique pour éviter les conflits
             String originalFileName = file.getOriginalFilename();
             String fileName = UUID.randomUUID().toString() + "_" + originalFileName;
 
-            // Créer le chemin du fichier
+            // Crée le chemin du fichier
             Path path = Paths.get(folder + fileName);
 
-            // Écrire le fichier sur le disque
+            // Écrit le fichier sur le disque
             Files.write(path, file.getBytes());
 
-            // Retourner seulement le nom du fichier (ou le chemin relatif)
+            // Retourne seulement le nom du fichier (ou le chemin relatif)
             return fileName;
         } catch (IOException e) {
-            // Gérer les exceptions comme vous le jugez approprié
+            // Gère les exceptions
             throw new RuntimeException("Échec de la sauvegarde de l'image", e);
         }
     }

@@ -25,23 +25,22 @@ public class ConfigurationSecurite extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/static/**").permitAll() // Autoriser l'accès à toutes les ressources statiques
+                .antMatchers("/static/**").permitAll() // Autorise l'accès à toutes les ressources statiques
                 .antMatchers("/produit/gestion-produit").authenticated() // Seuls les utilisateurs authentifiés peuvent y accéder
-                .antMatchers("/", "/produit", "/login").permitAll() // Autoriser l'accès à tout le monde
-                .antMatchers(HttpMethod.POST, "/api/produits/**/promotion").permitAll()
+                .antMatchers("/", "/produit", "/login").permitAll() // Autorise l'accès à tout le monde
+                .antMatchers(HttpMethod.POST, "/api/produits/**/promotion").permitAll() // Autorise les requêtes POST vers cette URL à tout le monde
             .and()
-//            .csrf().disable()
             .formLogin()
-                .usernameParameter("identifiant")
-                .passwordParameter("motDePasse")
-                .permitAll()
+                .usernameParameter("identifiant") // Définit le paramètre pour le nom d'utilisateur dans le formulaire
+                .passwordParameter("motDePasse") // Définit le paramètre pour le mot de passe dans le formulaire
+                .permitAll() // Autorise l'accès au formulaire de login à tout le monde
                 .and()
-            .logout()
+            .logout() // Configuration pour la déconnexion
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/produit")
                 .permitAll();
     }
-
+    // Méthode qui configure l'authentification globale de l'application.
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);

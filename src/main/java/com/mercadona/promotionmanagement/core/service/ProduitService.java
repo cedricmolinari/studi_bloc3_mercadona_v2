@@ -39,39 +39,44 @@ public class ProduitService {
         produitRepository.save(produit);
     }
     public int getLastUsedNumberFromDatabase(String categoryPrefix) {
-        // Utilisez le ProduitRepository pour obtenir la dernière référence pour une catégorie spécifique
+        // Utilise le ProduitRepository pour obtenir la dernière référence pour une catégorie spécifique
         String latestReference = produitRepository.findLatestReferenceForCategory(categoryPrefix.toUpperCase());
 
-        // Si aucune référence n'est trouvée (c'est-à-dire pour le premier produit), renvoyez 0
+        // Si aucune référence n'est trouvée, renvoye 0
         if (latestReference == null || latestReference.isEmpty()) {
             return 0;
         }
 
-        // Sinon, extrayez le numéro de la référence.
+        // Sinon, extraire le numéro de la référence.
         // Par exemple, si la référence est "CAT000002", le numéro est "000002", qui est converti en 2.
-        // Prenez les caractères de la position 3 à la fin
+        // Prendre les caractères de la position 3 à la fin
         int lastNumber = Integer.parseInt(latestReference.substring(3, 9));
 
         return lastNumber;
     }
-    
 
+    // Méthode pour récupérer les produits d'une catégorie spécifique
     public List<Produit> findByCategorie(String categorie) {
         return produitRepository.findByCategorieLibelle(categorie);
     }
-
+    // Méthode pour récupérer tous les produits
     public List<Produit> findAll() {
         return produitRepository.findAll();
     }
 
+    // Méthode pour récupérer tous les produits avec leurs catégories
     public List<Produit> listWithCategories() {
         return produitRepository.findAllWithCategories();
     }
+
+    // Méthode pour trouver des produits par l'ID de leur catégorie
     public List<Produit> findByCategorieId(Integer categorieId) {
         return produitRepository.findByCategorieId(categorieId);
     }
 
+    // Méthode pour cloner un produit
     public Produit cloneProduit(Produit original) {
+        // Ici, copie de tous les champs du produit original vers le produit copié
         Produit copy = new Produit();
         copy.setIdProduit(original.getIdProduit());
         copy.setReference(original.getReference());

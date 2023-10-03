@@ -66,8 +66,6 @@ public class Produit {
     public void setCheminImage(String cheminImage) {
         this.cheminImage = cheminImage;
     }
-
-    // Constructeur par défaut (nécessaire pour JPA)
     public Produit() {
     }
     public String getLibelle() {
