@@ -44,7 +44,7 @@ public class ProduitController {
     }
 
     // Gère les requêtes GET sur l'URL "/produit"
-    @GetMapping("/produit")
+    @GetMapping(value = {"/", "/produit"})
     public String displayProduits(@RequestParam(value = "categorie", required = false) String categorieString, Model model) {
         // Récupère les informations d'authentification de l'utilisateur
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
