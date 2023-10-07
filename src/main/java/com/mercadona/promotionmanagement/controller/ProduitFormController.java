@@ -60,7 +60,9 @@ public class ProduitFormController {
     @PostMapping("produit/gestion-produit/ajout")
     public String ajouterProduitEtImage(@Valid @ModelAttribute ProduitForm form, BindingResult results, RedirectAttributes redirectAttributes) {
 
-// Gestion des contraintes de saisie de formulaire
+        logger.info("Début de la méthode ajouterProduitEtImage");
+
+        // Gestion des contraintes de saisie de formulaire
         MultipartFile imageFile = form.getImageFile();
         String description = form.getDescription();
 
@@ -91,39 +93,52 @@ public class ProduitFormController {
         }
 
 
+        try {
+            logger.info("Création d'un nouveau produit");
+            Produit produit = new Produit();
+            produit.setLibelle(form.getLibelle());
+            produit.setDescription(form.getDescription());
+            produit.setPrix(form.getPrix());
+            produit.setDateCreation(LocalDateTime.now());
 
-        Produit produit = new Produit();
-        produit.setLibelle(form.getLibelle());
-        produit.setDescription(form.getDescription());
-        produit.setPrix(form.getPrix());
-        produit.setDateCreation(LocalDateTime.now());
+            Categorie categorie = categorieService.findById(form.getCategorieId());
+            produit.setCategorie(categorie);
 
-        Categorie categorie = categorieService.findById(form.getCategorieId());
-        produit.setCategorie(categorie);
+            String lastReference = getLastUsedNumberFromDatabase(categorie.getLibelle());
+            String newReference = generateNewReference(categorie.getLibelle(), lastReference);
+            produit.setReference(newReference);
 
-        String lastReference = getLastUsedNumberFromDatabase(categorie.getLibelle());
-        String newReference = generateNewReference(categorie.getLibelle(), lastReference);
-        produit.setReference(newReference);
+            logger.info("Sauvegarde de l'image sur S3");
 
-// Sauvegarde de l'image et mise à jour du chemin dans l'entité Produit
-        if (imageFile != null && !imageFile.isEmpty()) {
-            String fileName = saveImage(imageFile);
-            produit.setCheminImage(fileName);  // Enregistrement du chemin dans l'entité Produit
+            // Sauvegarde de l'image et mise à jour du chemin dans l'entité Produit
+            if (imageFile != null && !imageFile.isEmpty()) {
+                String fileName = saveImage(imageFile);
+                produit.setCheminImage(fileName);  // Enregistrement du chemin dans l'entité Produit
+            }
+
+            logger.info("Sauvegarde du produit dans la base de données");
+
+            // Sauvegarde de l'entité Produit dans la base de données
+            produitService.save(produit);
+            System.out.println("Dans le contrôleur, produitService est : " + this.produitService);
+            logger.info("Produit sauvegardé avec succès");
+
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+            String formattedDate = produit.getDateCreation().format(formatter);
+            redirectAttributes.addFlashAttribute("message", "Le produit de référence " + produit.getReference() + " a été ajouté le " + formattedDate + ".");
+
+            return "redirect:/produit/gestion-produit";
+
+        } catch (Exception e) {
+            logger.error("Une erreur est survenue", e);
+            throw new RuntimeException("Échec de la sauvegarde de l'image", e);
         }
-
-
-// Sauvegarde de l'entité Produit dans la base de données
-        produitService.save(produit);
-        System.out.println("Dans le contrôleur, produitService est : " + this.produitService);
-
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        String formattedDate = produit.getDateCreation().format(formatter);
-        redirectAttributes.addFlashAttribute("message", "Le produit de référence " + produit.getReference() + " a été ajouté le " + formattedDate + ".");
-
-        return "redirect:/produit/gestion-produit";
     }
-    private String saveImage(MultipartFile file) {
+    private String saveImage(MultipartFile file) throws IOException {
+
+        logger.info("Début de la méthode saveImage");
+
         if (file == null || file.getOriginalFilename() == null) {
             logger.warn("Le fichier ou le nom du fichier original est null");
             // Vous pouvez également lancer une exception ici si vous le souhaitez
@@ -132,6 +147,7 @@ public class ProduitFormController {
 
         logger.debug("Sauvegarde de l'image: {}", file.getOriginalFilename());
         try {
+            logger.info("Tentative de sauvegarde de l'image sur S3");
             String bucketName = "img-produits";
             S3Client s3client = S3Client.builder()
                     .region(Region.EU_WEST_3)
@@ -155,11 +171,14 @@ public class ProduitFormController {
             // Effectuer l'opération de mise en ligne (upload)
             s3client.putObject(putObjectRequest, requestBody);
 
+            logger.info("Image sauvegardée avec succès sur S3");
+
             // Retourne seulement le nom du fichier (ou le chemin relatif)
             return fileName;
+
         } catch (IOException e) {
-            // Gère les exceptions
-            throw new RuntimeException("Échec de la sauvegarde de l'image", e);
+            logger.error("Échec de la sauvegarde de l'image", e);
+            throw e;
         }
     }
 
