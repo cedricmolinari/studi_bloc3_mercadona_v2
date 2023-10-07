@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
@@ -150,6 +152,7 @@ public class ProduitFormController {
             logger.info("Tentative de sauvegarde de l'image sur S3");
             String bucketName = "img-produits";
             S3Client s3client = S3Client.builder()
+                    .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create("AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY")))
                     .region(Region.EU_WEST_3)
                     .build();
 
