@@ -32,3 +32,8 @@ build/
 ### VS Code ###
 .vscode/
 /src/main/resources/static/images/
+
+### autres ###
+*.DS_Store
+/images/
+target/
