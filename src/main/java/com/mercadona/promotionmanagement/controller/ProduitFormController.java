@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.core.sync.RequestBody;
+
 import javax.validation.Valid;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -127,18 +132,28 @@ public class ProduitFormController {
 
         logger.debug("Sauvegarde de l'image: {}", file.getOriginalFilename());
         try {
-            // Définit le chemin où sauvegarder l'image
-            String folder = "src/main/resources/static/images/";
+            String bucketName = "img-produits";
+            S3Client s3client = S3Client.builder()
+                    .region(Region.EU_WEST_3)
+                    .build();
 
             // Construit un nom de fichier unique pour éviter les conflits
             String originalFileName = file.getOriginalFilename();
             String fileName = UUID.randomUUID().toString() + "_" + originalFileName;
 
-            // Crée le chemin du fichier
-            Path path = Paths.get(folder + fileName);
+            // Définit le chemin où sauvegarder l'image
+            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(fileName)
+                    .build();
 
-            // Écrit le fichier sur le disque
-            Files.write(path, file.getBytes());
+            // Convertir le contenu du fichier en un objet RequestBody
+            RequestBody requestBody = RequestBody.fromInputStream(
+                    file.getInputStream(),
+                    file.getSize());
+
+            // Effectuer l'opération de mise en ligne (upload)
+            s3client.putObject(putObjectRequest, requestBody);
 
             // Retourne seulement le nom du fichier (ou le chemin relatif)
             return fileName;
