@@ -44,7 +44,7 @@
                     <tr>
                         <!-- Image du produit -->
                         <td rowspan="6">
-                            <img th:src="@{'/images/' + ${produit.cheminImage}}" alt="Image de produit" width="100px"/>
+                            <img th:src="@{'https://img-produits.s3.eu-west-3.amazonaws.com/' + ${produit.cheminImage}}" alt="Image de produit" width="100px"/>
                         </td>
                         <!-- Référence du produit -->
                         <td th:text="'Référence : ' + ${produit.reference}"></td>

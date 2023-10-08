@@ -150,9 +150,12 @@ public class ProduitFormController {
         logger.debug("Sauvegarde de l'image: {}", file.getOriginalFilename());
         try {
             logger.info("Tentative de sauvegarde de l'image sur S3");
+            String accessKeyId = System.getenv("AWS_ACCESS_KEY_ID");
+            String secretAccessKey = System.getenv("AWS_SECRET_ACCESS_KEY");
             String bucketName = "img-produits";
+
             S3Client s3client = S3Client.builder()
-                    .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create("AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY")))
+                    .credentialsProvider(StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey)))
                     .region(Region.EU_WEST_3)
                     .build();
 
