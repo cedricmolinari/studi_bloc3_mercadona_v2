@@ -18,9 +18,9 @@
 2. Installation des dépendances <br>
 `mvn install`
 3. Configuration des variables d'environnement <br>
-- AWS_ACCESS_KEY_ID : AKIAVL4WRYHPKKUFP44X
-- AWS_SECRET_ACCESS_KEY : 96IpUT27guuMINFI91TXCJOdZ5n3ZxcC3d3a0N5
-- DATABASE_URL : postgres://vcinocvsgmlieq:89e599e02b90700c770586ab70f177078d75898fb19b6f676f5779943bc4b524@ec2-52-215-68-14.eu-west-1.compute.amazonaws.com:5432/d3vged7rv65ntj
+- AWS_ACCESS_KEY_ID : cf heroku
+- AWS_SECRET_ACCESS_KEY : cf heroku
+- DATABASE_URL : cf heroku
 4. Démarrage de l'application
 `mvn spring-boot:run`
 
