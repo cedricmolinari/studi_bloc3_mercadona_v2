@@ -1,168 +1,199 @@
-/* Styles globaux */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0px 30px 0px 35px;
-    padding: 0;
-    background-color: #cccccc;
-}
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&display=swap');
 
-.header {
-    display: flex;
-    align-items: center; /* Centré verticalement */
-    justify-content: space-between; /* Espacé le plus possible */
-    padding: 10px;
-    background-color: #333;
-    color: white;
-}
-
-.header-left, .header-right {
-    display: flex;
-    align-items: center; /* Centré verticalement */
-}
-
-
-
-.logo {
-    width: 50px;
-    height: auto;
-    margin-right: 10px;
-}
-
-.header-title {
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
     margin: 0;
-    font-size: 24px;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: text-top;
 }
 
-.header-right a {
-    color: deepskyblue; /* Pour faire correspondre la couleur du texte du lien avec celle du header */
-    text-decoration: none; /* Pour enlever le soulignement du lien */
-    padding-left: 20px; /* Pour ajouter un peu d'espace à gauche du lien */
+a {
+    text-decoration: none;
+    color: inherit;
 }
 
 .page-container {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
 }
 
-.content-wrap {
-    flex: 1;
+.header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 100px;
+}
+
+.header-left {
+    grid-column-start: 1;
+    background-image: linear-gradient(to bottom, black, white);
+}
+
+.logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.header-title {
+    font-family: 'Agbalumo';
+    font-size: 54px;
+    color: goldenrod;
+    margin-left: 15px;
+}
+
+h1 {
+    display:inline;
+}
+
+.header-right {
+    grid-column-start: 2;
+    display:flex;
+    align-items: center;
+    justify-content: flex-end;
+    background-image: linear-gradient(to bottom, black, white);
+}
+
+#lienAdmin {
+    font-size: xx-large;
+    color: goldenrod;
+    transition: all 0.2s ease;
+    margin-right: 10px;
+}
+
+#lienAdmin:hover {
+    font-weight: bold;
+    color: goldenrod;
 }
 
 .categorie-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 15px;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-image: linear-gradient( to bottom, white , black 50%, white);
+    font-family: cursive, sans-serif;
+    color: azure;
 }
 
-.categorie-btn {
-    display: inline-block;
-    text-align: center;
-    align-items: center;
-    /*padding: 1px;*/
-    margin: 1px;
-    background-color: #333;
-    color: white;
-    text-decoration: none;
-    width: 150px;  /* Largeur de la box */
-    height: 50px;  /* Hauteur de la box */
-    /*box-sizing: border-box;*/
-    flex: 1;
+.categorie-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+    display: inline;
+    font-size: larger;
+}
+
+.categorie-wrapper:hover {
+    color: darkgoldenrod;
+    font-weight: bold;
+}
+
+/* Responsive */
+@media only screen and (max-width: 1000px) {
+    .categorie-wrapper {
+        font-size: medium;
+    }
 }
 
 .toutes-categories-container {
-    margin-top: 20px;  /* Espace entre les deux sets de boutons */
-    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: x-large;
+    display: inline-flex;
+    justify-content: flex-end;
+    color: rgb(18 18 18 / 70%);
 }
 
-.toutes-categories-btn {
-    padding: 10px;
-    margin: 5px auto;  /* 'auto' pour centrer le bouton */
-    background-color: #333;
-    color: white;
-    text-decoration: none;
-    display: block;
-    width: 25%;  /* Ajuster la largeur au contenu */
+.toutes-categories-container:hover {
+    font-weight: bold;
 }
-
-
-
 
 table {
-    width: 50%;  /* Largeur du tableau */
-    margin: 20px auto;  /* Centrer le tableau horizontalement */
+    width: 80%;
+    margin: 0 auto;
     border-collapse: collapse;
-    align-items: center;
+    background-color: #9b9b9b;
+    color: #000000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Responsive */
+@media only screen and (min-width: 1000px) {
+    table {
+        width: 800px;
+    }
+}
+
+td, th {
+    border: 1px solid white;
+    vertical-align: middle;
+    width: 50%;
+    padding: 1px;
+    /*text-align: -webkit-center;*/
+}
+
+th {
+    width: 1000px;
+}
+
+td {
+    background-image: linear-gradient(to right, #9b9b9b, white);
+}
+
+tr {
+    border: 1px solid white;
+}
+
+text {
+    text-align: start;
+}
+
+thead {
+    text-align: center;
+    width: 100%;
+    font-size: xx-large;
+    background-image: linear-gradient(to bottom, white, transparent);
+}
+
+#img {
+    width:100%;
+    height: 300px;
+}
+
+.spanTitre {
+    font-weight: bold;
+    justify-content: center;
 }
 
 .promotion-style {
     font-weight: bold;
-    color: red;
+    color: #ce0000db;
 }
 
-.titreTableau {
-    text-align: center;
-    font-size: 24px;
-}
-
-th, td {
-    border: 1px solid #ccc;
-    text-align: left;
-    line-height: 1.2;
-    padding: 5px 10px;
-}
-
-th {
-    background-color: #333;
-    color: white;
-}
-
-td {
-    position: relative;
-    width: 100px;
-}
-
-td.bordure-bas-epaisse {
-    border-bottom: 2px solid black;  /* 3px pour une bordure épaisse, 'solid' pour une bordure continue, 'black' pour la couleur noire */
-}
-
-td img {
-    position: absolute;
-    object-fit: cover;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-bottom: 3px solid black;
-}
-
-input[type="submit"] {
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
-    margin-top: 10px;
-    border: 1px solid #FF5733;
-    cursor: pointer;
-}
-
-input[type="submit"]:hover {
-    background-color: #555;
-}
-
-/* Styles pour le pied de page */
 footer {
     background-color: #333;
-    color: white;
+    color: #dabb6ba6;
+    padding: 20px 0px 20px 0px;
     text-align: center;
-    padding: 20px;
-    font-size: 20px;
 }
 
 /* Responsive */
 @media only screen and (max-width: 1000px) {
     footer {
-        font-size: 9px;
+        font-size: small;
     }
 }

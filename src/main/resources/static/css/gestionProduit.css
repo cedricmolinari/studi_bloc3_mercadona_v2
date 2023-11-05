@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&display=swap');
+
 /* Styles globaux */
 body {
     font-family: Arial, sans-serif;
@@ -6,24 +8,31 @@ body {
     background-color: #f4f4f4;
 }
 
-.header {
+/*.header {
     display: flex;
     justify-content: start;
     align-items: center;
     padding: 10px;
     background-color: #333;
     color: white;
+}*/
+
+.header {
+    display: inline-flex;
+    align-items: center;
 }
 
 .logo {
-    width: 50px;
-    height: auto;
-    margin-right: 10px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
 }
 
 .header-title {
-    margin: 0;
-    font-size: 24px;
+    font-family: 'Agbalumo';
+    font-size: 54px;
+    color: goldenrod;
+    margin: auto;
 }
 
 .page-container {
@@ -40,7 +49,7 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 20px 0;
+    margin: 20px 0 0 0;
 }
 
 .titreTableau {
@@ -50,13 +59,13 @@ table {
 
 th, td {
     border: 1px solid #ccc;
-    text-align: left;
+    text-align: center;
     line-height: 1.2;
     padding: 5px 10px;
 }
 
 th {
-    background-color: #333;
+    background-image: linear-gradient(to bottom, black, transparent);
     color: white;
 }
 
@@ -64,6 +73,24 @@ th {
 .promotion-style {
     font-weight: bold;
     color: red;
+}
+
+#btnPromo {
+    background-color: black;
+    color: white;
+}
+#btnPromo:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+#trPromo {
+    background-image: linear-gradient(to right, black, transparent)
+}
+
+/* Style pour la pagination */
+#divPagination {
+    margin: 0 0 40px 35%;
 }
 
 /* Style pour le formulaire */
@@ -79,8 +106,8 @@ input[type="text"],
 input[type="number"],
 input[type="date"],
 textarea {
-    width: 50%;
     border: 1px solid #ccc;
+    text-align: center;
 }
 
 .center-text {
@@ -100,6 +127,10 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
     background-color: #555;
+}
+
+select, option {
+    font-size: 1.5em;
 }
 
 /* Styles pour la pagination */
@@ -135,7 +166,6 @@ footer {
     padding: 20px;
     position: relative;
     bottom: 0;
-    width: 100%;
 }
 
 /* Responsive */

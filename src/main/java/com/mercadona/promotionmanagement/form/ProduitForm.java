@@ -14,9 +14,11 @@ public class ProduitForm {
     @NotBlank(message = "Veuillez entrer une description")
     @Size(max = 255)
     private String description;
+
     @NotNull(message = "Le prix ne doit pas être nul")
     @DecimalMin(value = "0.01", message = "Le prix doit être supérieur à zéro")
-    private BigDecimal prix;
+    private String prix;
+
     // Ce champ gère le fichier image téléchargé.
     @NotNull(message = "Veuillez fournir une image")
     private MultipartFile imageFile;
@@ -56,11 +58,12 @@ public class ProduitForm {
         this.description = description;
     }
 
-    public BigDecimal getPrix() {
+    public String getPrix() {
         return prix;
     }
 
-    public void setPrix(BigDecimal prix) {
+    public void setPrix(String prix) {
+        prix = prix.replace(",", ".");
         this.prix = prix;
     }
 

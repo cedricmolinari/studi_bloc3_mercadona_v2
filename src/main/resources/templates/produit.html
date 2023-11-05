@@ -2,36 +2,34 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" th:href="@{/css/produit.css}" />
+    <link rel="stylesheet" th:href="@{/css/produit.css}"/>
     <title>Liste des produits</title>
 </head>
 <body>
-    <div class="page-container">
-        <div class="content-wrap">
-            <header class="header">
-                <div class="header-left">
-                    <img th:src="@{'/images/000_logo.jpg'}" alt="Logo de Mercadona" class="logo">
-                    <h1 class="header-title">Mercadona</h1>
-                </div>
-                <div class="header-right">
-                    <a href="/produit/gestion-produit">espace admin</a>
-                </div>
-            </header>
-
-            <div class="categorie-container">
-                <div th:each="categorie : ${categories}" class="categorie-wrapper">
-                    <a class="categorie-btn"
-                       th:href="@{/produit(categorie=${categorie.idCategorie})}"
-                       th:text="${categorie.libelle}">
-                    </a>
-                </div>
+<div class="page-container">
+        <header class="header">
+            <div class="header-left">
+                <img th:src="@{'/images/000_logo.jpg'}" alt="Logo de Mercadona" class="logo">
+                <h1 class="header-title">Mercadona</h1>
             </div>
-            <div class="toutes-categories-container">
-                <a class="toutes-categories-btn" th:href="@{/produit}">Toutes les catégories</a>
+            <div class="header-right">
+                <a href="/produit/gestion-produit" id="lienAdmin">espace Admin</a>
             </div>
+        </header>
+        <div class="toutes-categories-container">
+            <a class="toutes-categories-btn" th:href="@{/produit}">TOUTES LES CATEGORIES</a>
+        </div>
+        <div class="categorie-container">
+            <div th:each="categorie : ${categories}" class="categorie-wrapper">
+                <a class="categorie-btn"
+                   th:href="@{/produit(categorie=${categorie.idCategorie})}"
+                   th:attr="data-categorie-id=${categorie.idCategorie}"
+                   th:text="${categorie.libelle}">
+                </a>
+            </div>
+        </div>
 
-
-
+        <div class="produit-container">
             <table>
                 <thead>
                 <tr>
@@ -41,60 +39,93 @@
                 <tbody>
                 <!-- Début de la boucle pour chaque produit -->
                 <th:block th:each="produit : ${produitsFormatted}">
-                    <tr>
+                    <tr class="produit" th:attr="data-categorie-id=${produit.categorie.idCategorie}">
                         <!-- Image du produit -->
-                        <td rowspan="6">
-                            <img th:src="@{'https://img-produits.s3.eu-west-3.amazonaws.com/' + ${produit.cheminImage}}" alt="Image de produit" width="100px"/>
+
+                        <td rowspan="6" id="divImg">
+                            <img th:src="@{'https://img-produits.s3.eu-west-3.amazonaws.com/' + ${produit.cheminImage}}" alt="Image de produit"/>
+                            <!--<img th:src="@{'/images/' + ${produit.cheminImage}}" alt="Image de produit" id="img" />-->
                         </td>
                         <!-- Référence du produit -->
-                        <td th:text="'Référence : ' + ${produit.reference}"></td>
+                        <td>
+                            <fieldset>
+                                <span class="spanTitre">Référence</span>
+                                <br>
+                                <span th:text="${produit.reference}"></span>
+                            </fieldset>
+                        </td>
+
                     </tr>
                     <!-- Date de création du produit -->
-                    <tr>
-                        <td th:text="'Date de mise en ligne : ' + ${produit.formattedDate}"></td>
+                    <tr class="produit" th:attr="data-categorie-id=${produit.categorie.idCategorie}">
+                        <td>
+                            <fieldset>
+                                <span class="spanTitre">Date de mise en ligne</span>
+                                <br>
+                                <span th:text="${produit.formattedDate}"></span>
+                            </fieldset>
+                        </td>
                     </tr>
                     <!-- Libellé du produit -->
-                    <tr>
-                        <td th:text="'Libellé : ' + ${produit.libelle}"></td>
+                    <tr class="produit" th:attr="data-categorie-id=${produit.categorie.idCategorie}">
+                        <td>
+                            <fieldset>
+                                <span class="spanTitre">Libellé</span>
+                                <br>
+                                <span th:text="${produit.libelle}"></span>
+                            </fieldset>
+                        </td>
                     </tr>
                     <!-- Description du produit -->
-                    <tr>
-                        <td th:text="'Description : ' + ${produit.description}"></td>
+                    <tr class="produit" th:attr="data-categorie-id=${produit.categorie.idCategorie}">
+                        <td>
+                            <fieldset>
+                                <span class="spanTitre">Description</span>
+                                <br>
+                                <span th:text="${produit.description}"></span>
+                            </fieldset>
+                        </td>
                     </tr>
                     <!-- Prix du produit -->
-                    <tr>
+                    <tr class="produit" th:attr="data-categorie-id=${produit.categorie.idCategorie}">
                         <!-- Si le produit est en promotion, le prix réduit est calculé et affiché en gras et en rouge. Sinon, le prix original est affiché. -->
-                        <td th:classappend="${produit.promotion != null && (today.isAfter(produit.promotion.dateDebut) || today.isEqual(produit.promotion.dateDebut)) && (today.isBefore(produit.promotion.dateFin) || today.isEqual(produit.promotion.dateFin)) ? 'promotion-style' : ''}"
-                            th:text="${produit.promotion != null && (today.isAfter(produit.promotion.dateDebut) || today.isEqual(produit.promotion.dateDebut)) && (today.isBefore(produit.promotion.dateFin) || today.isEqual(produit.promotion.dateFin)) ?
+                        <td>
+                            <fieldset>
+                                <span class="spanTitre">Prix</span>
+                                <br>
+                                <span th:classappend="${produit.promotion != null && (today.isAfter(produit.promotion.dateDebut) || today.isEqual(produit.promotion.dateDebut)) && (today.isBefore(produit.promotion.dateFin) || today.isEqual(produit.promotion.dateFin)) ? 'promotion-style' : ''}"
+                                      th:text="${produit.promotion != null && (today.isAfter(produit.promotion.dateDebut) || today.isEqual(produit.promotion.dateDebut)) && (today.isBefore(produit.promotion.dateFin) || today.isEqual(produit.promotion.dateFin)) ?
                             ((produit.prix * (1 - produit.promotion.pourcentage/100)) % 1 == 0 ? ((produit.prix * (1 - produit.promotion.pourcentage/100)).intValue()) + ' €' : (produit.prix * (1 - produit.promotion.pourcentage/100)) + ' €') :
-                            produit.prix + ' €'} ">
+                            produit.prix + ' €'} "></span>
+                            </fieldset>
                         </td>
                     </tr>
                     <!-- Catégorie du produit -->
-                    <tr>
-                        <td class="bordure-bas-epaisse" th:text="'Catégorie : ' + ${produit.categorie.libelle}"></td>
+                    <tr class="produit" th:attr="data-categorie-id=${produit.categorie.idCategorie}">
+                        <td class="bordure-bas-epaisse">
+                            <fieldset>
+                                <span class="spanTitre">Catégorie</span>
+                                <br>
+                                <span th:text="${produit.categorie.libelle}"></span>
+                            </fieldset>
+                        </td>
                     </tr>
                 </th:block>
                 <!-- Fin de la boucle -->
                 </tbody>
             </table>
-
-
-
-            <div th:if="${isAuthenticated}">
-                <form action="/logout" method="post">
-                    <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
-                    <input type="submit" value="Déconnexion" />
-                </form>
-            </div>
         </div>
-        <footer style="background-color: #333; color: white; padding: 20px; text-align: center;">
-            <h4>Mentions Légales</h4>
-            <p>Mercadona est une entreprise du secteur du retail avec 1675 magasins en Espagne et un chiffre d'affaires de 20 milliards d'euros.</p>
-            <p>Notre engagement envers le développement durable nous amène à remplacer nos tracts publicitaires par cette application web, développée en collaboration avec PromoWeb.</p>
-            <p>Responsable du projet chez Mercadona : José</p>
-            <p>Tous droits réservés &copy; Mercadona, 2023</p>
-        </footer>
-    </div>
+</div>
+<footer>
+    <h4>Mentions Légales</h4>
+    <p>Mercadona est une entreprise du secteur du retail avec 1675 magasins en Espagne et un chiffre d'affaires de 20
+        milliards d'euros.</p>
+    <p>Notre engagement envers le développement durable nous amène à remplacer nos tracts publicitaires par cette
+        application web, développée en collaboration avec PromoWeb.</p>
+    <p>Responsable du projet chez Mercadona : José</p>
+    <p>Tous droits réservés &copy; Mercadona, 2023</p>
+</footer>
+</div>
+<script src="/js/produit.js"></script>
 </body>
 </html>

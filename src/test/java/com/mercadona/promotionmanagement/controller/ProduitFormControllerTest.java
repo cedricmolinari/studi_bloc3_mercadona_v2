@@ -66,7 +66,7 @@ public class ProduitFormControllerTest {
         ProduitForm form = new ProduitForm();
         form.setLibelle("Test");
         form.setDescription("Description");
-        form.setPrix(BigDecimal.valueOf(10.0));
+        form.setPrix(String.valueOf(BigDecimal.valueOf(10.0)));
         form.setCategorieId(1);
         MultipartFile mockMultipartFile = mock(MultipartFile.class);
         when(mockMultipartFile.getOriginalFilename()).thenReturn("test.jpg");
@@ -103,7 +103,7 @@ public class ProduitFormControllerTest {
         ProduitForm form = new ProduitForm();
         form.setLibelle("");
         form.setDescription("Description trop longue qui dépasse la limite de caractères...");
-        form.setPrix(BigDecimal.valueOf(-1.0));
+        form.setPrix(String.valueOf(BigDecimal.valueOf(-1.0)));
         form.setCategorieId(1);
         form.setImageFile(multipartFile);
 
@@ -138,7 +138,7 @@ public class ProduitFormControllerTest {
                 "scelerisque aliquet ante, ac sagittis lacus sollicitudin ut. Praesent volutpat justo nulla, et placerat" +
                 " tellus facilisis at. Vivamus volutpat tristique libero, quis venenatis mauris. Pellentesque habitant.");
         /*prix*/
-        form.setPrix(BigDecimal.valueOf(-1.0));
+        form.setPrix(String.valueOf(BigDecimal.valueOf(-1.0)));
         /*catégorie*/
         form.setCategorieId(1);
 
@@ -163,7 +163,7 @@ public class ProduitFormControllerTest {
         /*description*/
         form.setDescription("Lorem ipsum dolor sit amet.");
         /*prix*/
-        form.setPrix(BigDecimal.valueOf(-1.0));
+        form.setPrix(String.valueOf(BigDecimal.valueOf(-1.0)));
         when(bindingResult.hasErrors()).thenReturn(true);
 
         /*catégorie*/
@@ -188,7 +188,7 @@ public class ProduitFormControllerTest {
         /*description*/
         form.setDescription("Lorem ipsum dolor sit amet.");
         /*prix*/
-        form.setPrix(BigDecimal.valueOf(1.0));
+        form.setPrix(String.valueOf(BigDecimal.valueOf(1.0)));
 
         when(mockMultipartFile.getSize()).thenReturn((long) (2 * 1024 * 1024 + 1)); // Plus grand que 2 MB
         when(bindingResult.hasErrors()).thenReturn(true);

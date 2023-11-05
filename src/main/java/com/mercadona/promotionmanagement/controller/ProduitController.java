@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -66,6 +67,10 @@ public class ProduitController {
         }
 
         List<Produit> produitsFormatted = formatProduitsDates(produits);
+        // Tri des produits par référence
+        produitsFormatted = produitsFormatted.stream()
+                .sorted(Comparator.comparing(Produit::getReference))
+                .collect(Collectors.toList());
 
         // Ajoute les attributs au modèle pour les utiliser dans la vue
         model.addAttribute("produitsFormatted", produitsFormatted);

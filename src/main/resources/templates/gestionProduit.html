@@ -39,16 +39,16 @@
                     <td th:text="${produit.formattedDate}"></td>
                     <td th:text="${produit.libelle}"></td>
                     <td class="prixOriginal" th:text="${produit.prix}"></td>
-                    <td><input class="pourcentagePromo" type="number" min="0" max="100" placeholder="En %" /></td>
+                    <td><input class="pourcentagePromo" type="number" min="1" max="100" placeholder="%" /></td>
                     <td><input class="promoDebut" type="date" th:value="${today}" /></td>
                     <td><input class="promoFin" type="date" th:value="${oneWeekFromNow}" /></td>
-                    <td><button class="btnAppliquerPromo" type="button" th:data-id="${produit.idProduit}">Appliquer Promo</button></td>
+                    <td id="trPromo"><button id="btnPromo" class="btnAppliquerPromo" type="button" th:data-id="${produit.idProduit}">Appliquer Promo</button></td>
                 </tr>
                 </tbody>
             </table>
 
                 <!-- Contrôles de pagination -->
-            <div>
+            <div id="divPagination">
                 <ul>
                     <!-- Première page -->
                     <li th:if="${produits.first}">Première page</li>

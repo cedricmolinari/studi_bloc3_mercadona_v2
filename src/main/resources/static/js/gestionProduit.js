@@ -12,8 +12,13 @@ document.querySelectorAll('.btnAppliquerPromo').forEach(button => {
         const promoDebut = row.querySelector('.promoDebut').value;
         const promoFin = row.querySelector('.promoFin').value;
 
-        const prixReduit = prixOriginal * (1 - (pourcentagePromo / 100));
+        // Vérifie si pourcentagePromo est vide ou égal à 0
+        if (isNaN(pourcentagePromo) || pourcentagePromo <= 0 || pourcentagePromo > 100) {
+            alert("Veuillez saisir une valeur de pourcentage entre 1 et 100.");
+            return;  // Sort de la fonction pour ne pas continuer le traitement
+        }
 
+        const prixReduit = prixOriginal * (1 - (pourcentagePromo / 100));
 
         // Récupère le jeton CSRF et son nom d'en-tête depuis les balises meta
         const csrfToken = document.querySelector('meta[name="_csrf"]').getAttribute('content');

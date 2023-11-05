@@ -30,8 +30,10 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 import java.util.UUID;
 @Controller
 public class ProduitFormController {
@@ -83,9 +85,16 @@ public class ProduitFormController {
                 redirectAttributes.addFlashAttribute("errorMessageDescription", "La description ne peut excéder 255 caractères");
             }
 
-            BigDecimal prix = form.getPrix();
-            if (prix != null && prix.doubleValue() < 0) {
-                redirectAttributes.addFlashAttribute("errorMessagePrix", "Le prix doit être supérieur à 0");
+            String prix = form.getPrix();
+            if (prix != null) {
+                try {
+                    BigDecimal prixDecimal = new BigDecimal(prix.replace(",", "."));
+                    if (prixDecimal.compareTo(BigDecimal.ZERO) < 0) {
+                        redirectAttributes.addFlashAttribute("errorMessagePrix", "Le prix doit être supérieur à 0");
+                    }
+                } catch (NumberFormatException e) {
+                    throw new RuntimeException("La conversion a échoué", e);
+                }
             }
             if (results.getFieldError("libelle") != null) {
                 redirectAttributes.addFlashAttribute("errorMessageLibelle", "Le libellé ne peut pas être vide ou excéder une certaine taille");
@@ -100,7 +109,10 @@ public class ProduitFormController {
             Produit produit = new Produit();
             produit.setLibelle(form.getLibelle());
             produit.setDescription(form.getDescription());
-            produit.setPrix(form.getPrix());
+            // Conversion du prix
+            String prix = form.getPrix().replace(',', '.');
+            produit.setPrix(new BigDecimal(prix));
+
             produit.setDateCreation(LocalDateTime.now());
 
             Categorie categorie = categorieService.findById(form.getCategorieId());
